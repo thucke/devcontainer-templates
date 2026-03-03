@@ -1,0 +1,78 @@
+{
+	"name": "TYPO3 Dev Container",
+	"image": "ghcr.io/thucke/devcontainers/typo3-${templateOption:webserver}:1-php${templateOption:phpVersion}-trixie",
+	"runArgs": [
+		"--env-file=.devcontainer/.env"
+	],
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	"mounts": [
+		"source=${localWorkspaceFolderBasename}-build,target=${containerWorkspaceFolder}/.build,type=volume"
+	],
+	"features": {
+		"ghcr.io/devcontainers/features/sshd:1": {},
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {
+			"moby": false
+		}
+	},
+	"containerEnv": {
+		"WORKSPACE_ROOT": "${containerWorkspaceFolder}",
+		"TYPO3_INSTALL_WEB_SERVER_CONFIG": "other",
+		"SERVER_NAME": "127.0.0.1",
+		"COMPOSE_PROFILES": "${templateOption:webserver}"
+	},
+	"forwardPorts": [
+		80,
+		2222,
+		3306,
+		8080
+	],
+	"portsAttributes": {
+		"80": {
+			"label": "Webserver"
+		},
+		"2222": {
+			"label": "SSH daemon Port"
+		},
+		"3306": {
+			"label": "Mysql/MariaDB database"
+		},
+		"8080": {
+			"label": "Mysql Adminer"
+		}
+	},
+	"onCreateCommand": "chmod -c +x ${WORKSPACE_ROOT}/.devcontainer/onCreateCommandScript.sh && ${WORKSPACE_ROOT}/.devcontainer/onCreateCommandScript.sh",
+	"postCreateCommand": "${WORKSPACE_ROOT}/.devcontainer/postCreateCommandScript.sh",
+	"postAttachCommand": "cd ${WORKSPACE_ROOT} && .devcontainer/docker/frankenphp/server.sh && git pull && exit 0",
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"extensions.autoUpdate": false,
+				"editor.codeActionsOnSave": {
+					"source.fixAll.markdownlint": "explicit"
+				},
+				"files.autoSave": "afterDelay",
+				"files.autoSaveDelay": 1000,
+				"git.postCommitCommand": "push",
+				"git.path": "/usr/bin/git"
+			},
+			"extensions": [
+				"cweijan.vscode-database-client2",
+				"ms-vscode-remote.remote-containers",
+				"benjaminkott.typo3-typoscript",
+				"ralffreit.typo3snippets",
+				"ms-azuretools.vscode-containers",
+				"ms-azuretools.vscode-docker",
+				"docker.docker",
+				"donjayamanne.githistory",
+				"ecmel.vscode-html-css",
+				"xdebug.php-debug",
+				"redhat.vscode-yaml",
+				"DotJoshJohnson.xml",
+				"SanderRonde.phpstan-vscode",
+				"eamodio.gitlens",
+				"DavidAnson.vscode-markdownlint",
+				"EditorConfig.EditorConfig"
+			]
+		}
+	}
+}
