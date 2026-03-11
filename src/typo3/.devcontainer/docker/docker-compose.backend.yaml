@@ -1,0 +1,82 @@
+# https://www.rutschmann.biz/de-de/typo3-blog/detail/typo3-mit-solr-und-nginx-mittels-docker-compose-auf-auf-amazon-ec2#c542
+# https://medium.com/@tech_18484/deploying-a-php-web-app-with-docker-compose-nginx-and-mariadb-d61a84239c0d
+# https://blog.hdnet.de/blog/setting-up-typo3-9-locally
+services:
+  nginx:
+    build:
+      context: ${WORKSPACE_ROOT}/.devcontainer/docker/nginx/.
+      args:
+        DEVCONTAINER_SERVICE_NAME:
+        DEVCONTAINER_SERVICE_ID:
+    depends_on:
+      db:
+        condition: service_healthy
+        required: false
+      #php:
+      #  condition: service_started
+      #  required: true
+      #- solr
+    restart: unless-stopped
+    ports:
+      - '80:80'
+    volumes:
+      - ${WORKSPACE_ROOT}:/workspaces/TYPO3.introduction:rw,cached
+      #- /etc/letsencrypt/live/:/etc/letsencrypt/live
+      #- /etc/letsencrypt/archive:/etc/letsencrypt/archive
+      #- /etc/ssl/:/etc/ssl
+      - ${WORKSPACE_ROOT}/.devcontainer/docker/nginx/templates:/etc/nginx/templates:rw,cached
+      - ${WORKSPACE_ROOT}/.devcontainer/docker/nginx/includes:/etc/nginx/includes:rw,cached
+    networks:
+      - devcontainer
+    profiles: [php-fpm, nginx]
+  db:
+    build:
+      context: ..
+      dockerfile: ${WORKSPACE_ROOT}/.devcontainer/docker/db/mysql/Dockerfile
+    command: mysqld
+    restart: unless-stopped
+    volumes:
+      #- db-data:/var/lib/mysql
+      - type: bind
+        source: ${WORKSPACE_ROOT}/.devcontainer/docker/db/mysql/mysql.cnf
+        target: /etc/mysql/conf.d/custom.cnf
+      - type: bind
+        source: ${WORKSPACE_ROOT}/.devcontainer/docker/db/initdb
+        target: /docker-entrypoint-initdb.d
+    networks:
+      - devcontainer
+    ports:
+      - 3306:3306
+    env_file:
+      - path: ${WORKSPACE_ROOT}/.devcontainer/.env
+        required: "true"
+      - path: ${WORKSPACE_ROOT}/.devcontainer/docker/db/initdb/.env
+        required: "true"
+    healthcheck:
+      test: ["CMD-SHELL", "mysql -uroot -p$${MYSQL_ROOT_PASSWORD} --execute \"SHOW DATABASES;\" || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      #start_period: 10s
+      #start_interval: 5s
+  adminer:
+    image: adminer:latest
+    restart: unless-stopped
+    environment:
+      TZ: "Europe/Berlin"
+    networks:
+      - devcontainer
+    ports:
+      - 8080:8080
+    depends_on:
+      db:
+        condition: service_healthy
+        required: false
+
+networks:
+  devcontainer:
+    # Specify driver options
+    driver: bridge
+    enable_ipv6: false
+    driver_opts:
+      com.docker.network.bridge.host_binding_ipv4: "127.0.0.1"

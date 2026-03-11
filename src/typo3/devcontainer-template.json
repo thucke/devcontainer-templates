@@ -1,0 +1,32 @@
+{
+    "id": "typo3",
+    "version": "0.0.1",
+    "name": "Typo3 ",
+    "description": "TYPO3 development container template",
+    "documentationURL": "https://github.com/thucke/devcontainer-templates/tree/main/src/typo3",
+    "licenseURL": "https://github.com/thucke/devcontainer-templates/blob/main/LICENSE",
+    "options": {
+        "phpVersion": {
+            "type": "string",
+            "description": "PHP version to use:",
+            "proposals": [
+                "8.2",
+                "8.3",
+                "8.4",
+                "8.5"
+            ],
+            "default": "8.4"
+        },
+        "webserver": {
+            "type": "string",
+            "description": "Which webserver do you prefer?",
+            "proposals": [
+                "frankenphp"
+            ],
+            "default": "frankenphp"
+        }
+    },
+    "platforms": [
+        "Any"
+    ]
+}
