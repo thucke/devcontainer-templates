@@ -12,8 +12,7 @@ jobs:
         id: filter
         with:
           filters: |
-            color: ./**/color/**
-            hello: ./**/hello/**
+            typo3: ./**/typo3/**
 
   test:
     needs: [detect-changes]
