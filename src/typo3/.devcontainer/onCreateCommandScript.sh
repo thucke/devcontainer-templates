@@ -9,7 +9,6 @@ echo "onCreateCommandScript: Initializing TYPO3.env if not exists"
 
 # configure git safe directories
 echo "onCreateCommandScript: Configuring git safe directories"
-git config --global --add safe.directory /var/www
 git config --global --add safe.directory ${WORKSPACE_ROOT}
 
 # make scripts executable

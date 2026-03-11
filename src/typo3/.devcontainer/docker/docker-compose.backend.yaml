@@ -28,7 +28,7 @@ services:
       - ${WORKSPACE_ROOT}/.devcontainer/docker/nginx/includes:/etc/nginx/includes:rw,cached
     networks:
       - devcontainer
-    profiles: [php-fpm]
+    profiles: [php-fpm, nginx]
   db:
     build:
       context: ..

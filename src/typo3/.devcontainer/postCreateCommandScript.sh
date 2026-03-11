@@ -4,10 +4,6 @@ set -eu
 # post start script
 echo "BEGIN: postCreateCommandScript.sh"
 
-#echo "postCreateCommandScript: Fetching IP address of docker0 gateway"
-#export DOCKER0_GATEWAY=$(docker network inspect -f json bridge|jq ".[] | select( .Name == \"bridge\").IPAM.Config[0].Gateway"| tr -d '"')
-#echo "postCreateCommandScript: => DOCKER0_GATEWAY=${DOCKER0_GATEWAY}"
-
 # check if docker containers are already running only if docker cli is installed
 if [[ `which docker` ]]; then
   echo "postCreateCommandScript: Checking if docker containers are already running"

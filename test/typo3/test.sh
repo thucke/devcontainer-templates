@@ -4,7 +4,8 @@ source test-utils.sh
 
 # Template specific tests
 check "distro" lsb_release -c
-check "greeting" [ $(cat /usr/local/etc/greeting.txt | grep hey) ]
+check "Testing docker command existence" [[ `which docker` ]]
+check "Testing git command existence" [[ `which git` ]]
 
 # Report result
 reportResults
