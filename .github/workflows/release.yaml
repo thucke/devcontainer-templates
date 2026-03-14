@@ -2,12 +2,6 @@ name: "Release Dev Container Templates & Generate Documentation"
 on:
   workflow_dispatch:
 
-env:
-  # Use docker.io for Docker Hub if empty
-  REGISTRY: ghcr.io
-  # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
-
 jobs:
   deploy:
     # if: ${{ github.ref == 'refs/heads/main' }}
@@ -19,15 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # Login against a Docker registry except on PR
-      # https://github.com/docker/login-action
-      - name: Log into registry ${{ env.REGISTRY }}
-        if: github.event_name != 'pull_request'
-        uses: docker/login-action@v4
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
       - name: "Publish Templates"
         uses: devcontainers/action@v1
         with:
