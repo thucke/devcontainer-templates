@@ -2,6 +2,12 @@ name: "Release Dev Container Templates & Generate Documentation"
 on:
   workflow_dispatch:
 
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: ${{ github.repository }}
+
 jobs:
   deploy:
     # if: ${{ github.ref == 'refs/heads/main' }}
