@@ -40,9 +40,9 @@
 			"label": "Mysql Adminer"
 		}
 	},
-	"onCreateCommand": "chmod -c +x ${WORKSPACE_ROOT}/.devcontainer/onCreateCommandScript.sh && ${WORKSPACE_ROOT}/.devcontainer/onCreateCommandScript.sh",
-	"postCreateCommand": "${WORKSPACE_ROOT}/.devcontainer/postCreateCommandScript.sh",
-	"postAttachCommand": "cd ${WORKSPACE_ROOT} && .devcontainer/docker/frankenphp/server.sh && git pull && exit 0",
+	"onCreateCommand": "chmod -c +x .devcontainer/onCreateCommandScript.sh && .devcontainer/onCreateCommandScript.sh",
+	"postCreateCommand": ".devcontainer/postCreateCommandScript.sh",
+	"postAttachCommand": ".devcontainer/postAttachCommandScript.sh",
 	"customizations": {
 		"vscode": {
 			"settings": {

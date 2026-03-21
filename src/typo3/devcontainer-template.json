@@ -1,6 +1,6 @@
 {
     "id": "typo3",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "name": "Typo3 ",
     "description": "TYPO3 development container template",
     "documentationURL": "https://github.com/thucke/devcontainer-templates/tree/main/src/typo3",
