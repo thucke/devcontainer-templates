@@ -4,8 +4,8 @@ source test-utils.sh
 
 # Template specific tests
 check "distro" lsb_release -c
-check "Testing docker command existence" [[ `which docker` ]]
-check "Testing git command existence" [[ `which git` ]]
+check "Testing docker command existence" test -n  $(which docker)
+check "Testing git command existence" test -n  $(which git)
 
 # Report result
 reportResults
