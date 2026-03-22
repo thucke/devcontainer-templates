@@ -1,14 +1,14 @@
 {
     "id": "typo3",
-    "version": "0.0.2",
-    "name": "Typo3 ",
-    "description": "TYPO3 development container template",
+    "version": "0.1.0",
+    "name": "Typo3",
+    "description": "A template to support remote development with TYPO3.",
     "documentationURL": "https://github.com/thucke/devcontainer-templates/tree/main/src/typo3",
     "licenseURL": "https://github.com/thucke/devcontainer-templates/blob/main/LICENSE",
     "options": {
         "phpVersion": {
             "type": "string",
-            "description": "PHP version to use:",
+            "description": "Select the PHP version to use in the development container. You may choose PHP version from 8.2 to 8.5.",
             "proposals": [
                 "8.2",
                 "8.3",
@@ -19,7 +19,7 @@
         },
         "webserver": {
             "type": "string",
-            "description": "Which webserver do you prefer?",
+            "description": "Which webserver do you prefer? Currently only FrankenPHP is supported, but more options will be added in the future.",
             "proposals": [
                 "frankenphp"
             ],
