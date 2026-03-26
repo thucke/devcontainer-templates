@@ -45,6 +45,7 @@ services:
         target: /docker-entrypoint-initdb.d
     networks:
       - devcontainer
+    profiles: [mysql]
     ports:
       - 3306:3306
     env_file:
@@ -66,6 +67,7 @@ services:
       TZ: "Europe/Berlin"
     networks:
       - devcontainer
+    profiles: [mysql, mariadb]
     ports:
       - 8080:8080
     depends_on:
