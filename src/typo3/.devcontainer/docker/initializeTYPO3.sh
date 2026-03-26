@@ -7,6 +7,12 @@ echo "BEGIN: initializeTYPO3.sh"
 echo "initializeTYPO3: Checking if site already has been initialized"
 if test ! -d .build/vendor; then
   echo "initializeTYPO3: Initialize TYPO3"
+  composer require --dev "helhum/dotenv-connector": "*", "helhum/typo3-console": "*"
+  composer config allow-plugins.helhum/dotenv-connector true
+  composer config bin-dir .build/bin
+  composer config vendor-dir .build/vendor
+  composer config extra.typo3/cms.web-dir .build/public
+  composer config extra.helhum/dotenv-connector.env-file TYPO3.env
   composer install
   # Add .build/bin to PATH
   [[ ":$PATH:" != *":${WORKSPACE_ROOT}/.build/bin:"* ]] && export PATH="${WORKSPACE_ROOT}/.build/bin:${PATH}"
