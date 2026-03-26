@@ -1,6 +1,6 @@
 ### Disclaimer
 
-Development with TYPO3 is commonly done using [DDEV environment](https://docs.ddev.com/en/stable/users/quickstart/#typo3). Mainly designed for local use in Docker environment DDEV is being brought also to Codespaces and Kubenetes environments. Anyway DDEV is likely a form of 
+Development with TYPO3 is commonly done using [DDEV environment](https://docs.ddev.com/en/stable/users/quickstart/#typo3). Mainly designed for local use in Docker environment DDEV is being brought also to Codespaces and Kubenetes environments. Anyway DDEV is not outdated though Devcontainer technology seems to be more a standard technology the more tooling support is added.
 
 # Additional information
 
