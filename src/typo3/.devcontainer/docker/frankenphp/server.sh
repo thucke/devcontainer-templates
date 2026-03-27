@@ -2,7 +2,7 @@
 
 echo "BEGIN: server.sh (frankenphp)"
 
-if [[ ! ${COMPOSE_PROFILES} =~ "frankenphp" ]]; then
+if [[ ! ${COMPOSE_PROFILES} == "frankenphp" ]]; then
   echo "server.sh: No frankenphp environment"
   exit 0
 fi
