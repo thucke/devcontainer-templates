@@ -1,22 +1,91 @@
 
-# Typo3  (typo3)
+# Typo3 (typo3)
 
-TYPO3 development container template
+A template to support remote development with TYPO3.
 
 ## Options
 
 | Options Id | Description | Type | Default Value |
 |-----|-----|-----|-----|
-| phpVersion | PHP version to use: | string | 8.4 |
-| webserver | Which webserver do you prefer? | string | frankenphp |
+| phpVersion | Select the PHP version to use in the development container. You may choose PHP version from 8.2 to 8.5. | string | 8.4 |
+| webserver | Which webserver do you prefer? Currently only FrankenPHP is supported, but more options will be added in the future. | string | frankenphp |
 
-# TYPO3 Notes
+### Disclaimer
+
+Development with TYPO3 is commonly done using [DDEV environment](https://docs.ddev.com/en/stable/users/quickstart/#typo3). Mainly designed for local use in Docker environment DDEV is being brought also to Codespaces and Kubenetes environments. Anyway DDEV is not outdated though Devcontainer technology seems to be more a standard technology the more tooling support is added.
+
+# Additional information
+
+Normally a TYPO3 setup consists of the following main parts
+
+* PHP version as required by TYPO3 with the needed extensions enabled
+  * XDebug support enabled for development needs
+* a webserver that
+  * is enabled to process the *.php files in the TYPO3 folders
+  * properly configured with secure filters and rewrite rules
+* a database backed supported by TYPO3 version
+
+This Devcontainer template is based upon the following ruleset:
+
+* we make use of Docker-In-Docker (DIND) within the core devcontainer to provide the best "local-lookalike-feeling" for developers who could thereby launch any additional docker service they want
+* the core devcontainer environment (based on Debian Trixie) contains the PHP environment needed for the designated TYPO3 version in addtion to the souce code checked out into the working directory
+* a database backend is started as a separate docker service based on the selected `TYPO3_INSTALL_DB_DRIVER` in the file `.devcontainer/.env` (no backend if `sqlite` is configured)
+* if a `composer.json` file is detected during initialization the PHP application will be automatically initialized
 
 ## Provided variances
 
-Currently only variances of FrankenPHP webserver with the PHP versions from 8.2 to 8.5 are provided.
+Currently only variances of FrankenPHP integrated webserver (Caddy) with the following PHP versions are provided:
 
+* 8.2
+* 8.3
+* 8.4
+* 8.5
 
+FrankenPHP currently *only* runs in classic mode comparable to Apache/mod_php or PHP-FPM. Unfortunately worker mode is not supported by TYPO3 at this point of time.
+
+![Architecture overview](doc/Devcontainer_FrankenPHP.drawio.png)
+
+## Requirements
+
+Some requirements regarding the composer configuration are automatically set during initialization before performing install. They MUST NOT be modified afterwards unless you don't want to make use of this devcontainer template anymore.
+
+    composer require --dev "helhum/dotenv-connector": "*", "helhum/typo3-console": "*"
+    composer config allow-plugins.helhum/dotenv-connector true
+    composer config bin-dir .build/bin
+    composer config vendor-dir .build/vendor
+    composer config extra.typo3/cms.web-dir .build/public
+    composer config extra.helhum/dotenv-connector.env-file TYPO3.env
+
+# Useful hints
+
+* Re-Initialize TYPO3 environment
+  
+  If you need to get a clean TYPO3 environment based upon your configuration you may spawn a terminal window and execute
+  
+   `${WORKSPACE_ROOT}/.devcontainer/docker/igniteEnvironment.sh`
+
+* TYPO3 environment configuration
+
+  You may modify the file `${WORKSPACE_ROOT}/.devcontainer/.env` with caution if you want to adjust some core TYPO3 settings. After this file has been modified it is recommended to rebuild the whole devcontainer.
+
+# Getting started with Devcontainer runtimes
+
+## Github Codespaces
+
+* Login to Github WebUI and select the desired branch
+* select the dropdown field `<> Code` / Tab `Codespaces`
+* in the rown `Codespaces` select the three dots</br>
+  (choosing `+` will launch the default configuration)
+* select `+ New with options...`
+  * verify that the correct branch is selected
+  * choose the default devcontainer configuration
+  * verify the region
+  * choose a machine type (2 cores should be fine to start)
+* select `Create codespace`</br>
+  Now a VS Code UI opens in the browser window.
+  * please be VERY patient now because all containers have to be build initially including the whole TYPO3 environment. You may follow the progress by pressing `Building codespace...` link in the bottom right corner:</br>
+  ![Building codespace](doc/Github_VsCodeBuildingCodespace.png)</br>
+  If you later start the codespace again it will come up quickly.
 
 
 ---
