@@ -58,8 +58,8 @@ services:
       interval: 20s
       timeout: 5s
       retries: 5
-      start_period: 30s
-      #start_interval: 5s
+      start_period: 15s
+      start_interval: 10s
   adminer:
     image: adminer:latest
     restart: unless-stopped

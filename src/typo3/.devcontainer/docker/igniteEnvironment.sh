@@ -53,13 +53,13 @@ if [ -f ${WORKSPACE_ROOT}/composer.json ]; then
     echo "Step 5/6: Fix TYPO3 image references - skipping as database driver is not mysqli"
   fi
 
-  if [[ "${COMPOSE_PROFILES}" =~ "php-fpm" ]]; then
+  if [ "${COMPOSE_PROFILES}" == "php-fpm" ]; then
     echo "Step 6/6: Checking for running php-fpm"
     .devcontainer/php-fpm/server.sh restart
-  elif [[ "${COMPOSE_PROFILES}" =~ "apache" ]]; then
+  elif [ "${COMPOSE_PROFILES}" == "apache" ]; then
     echo "Step 6/6: Restarting Apache"
     .devcontainer/php-fpm/server.sh
-  elif [[ "${COMPOSE_PROFILES}" =~ "frankenphp" ]]; then
+  elif [ "${COMPOSE_PROFILES}" == "frankenphp" ]; then
     echo "Step 6/6: Restarting FrankenPHP"
     .devcontainer/docker/frankenphp/server.sh restart
   fi
