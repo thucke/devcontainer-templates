@@ -2,12 +2,12 @@
 
 echo "BEGIN: server.sh (frankenphp)"
 
-if [[ ! ${COMPOSE_PROFILES} == "frankenphp" ]]; then
+if [ ! "${COMPOSE_PROFILES}" == "frankenphp" ]; then
   echo "server.sh: No frankenphp environment"
   exit 0
 fi
 
-if [[ "$1" == "restart" ]]; then
+if [ "$1" == "restart" ]; then
   echo "server.sh: Checking for running frankenphp"
   if [ $(pidof frankenphp| wc -w) -ne 0 ]; then
     echo "restartFrankenphp: Stopping running frankenphp"

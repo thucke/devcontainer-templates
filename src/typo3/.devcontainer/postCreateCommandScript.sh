@@ -5,7 +5,7 @@ set -eu
 echo "BEGIN: postCreateCommandScript.sh"
 
 # check if docker containers are already running only if docker cli is installed
-if [[ -n `which docker` && ${TYPO3_INSTALL_DB_DRIVER:-pdo_sqlite} != pdo_sqlite ]]; then
+if [ -n `which docker` ] && [ "${TYPO3_INSTALL_DB_DRIVER:-pdo_sqlite}" != "pdo_sqlite" ]; then
   echo "postCreateCommandScript: Checking if docker containers are already running"
   if [ `docker compose ls -q --filter "name=^${COMPOSE_PROJECT_NAME}$" | wc -l` -eq 0 ]; then
     compose_filename="${WORKSPACE_ROOT}/.devcontainer/docker/docker-compose.backend.yaml"
