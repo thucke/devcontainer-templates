@@ -15,10 +15,19 @@
 		}
 	},
 	"containerEnv": {
+		"TZ": "Europe/Berlin",
 		"WORKSPACE_ROOT": "${containerWorkspaceFolder}",
 		"TYPO3_INSTALL_WEB_SERVER_CONFIG": "other",
-		"SERVER_NAME": "127.0.0.1",
-		"COMPOSE_PROFILES": "${templateOption:webserver}"
+		"COMPOSE_PROFILES": "${templateOption:webserver}, ${templateOption:database}",
+		"COMPOSE_PROJECT_NAME": "typo3-devcontainer",
+		"DB_SERVER_TYPE": "${templateOption:database}",
+		"MYSQLI_DBNAME": "db",
+		"SQLITE_DBFILE_PATH": "${containerWorkspaceFolder}/var/lib/sqlite/typo3.db",
+		"TYPO3_CONTEXT": "Development",
+		"TYPO3_INSTALL_DB_HOST": "127.0.0.1",
+		"TYPO3_INSTALL_DB_PORT": "3306",
+		"TYPO3_INSTALL_DB_USE_EXISTING": "true",
+		"TYPO3_CONFIG_SYS_TRUSTED_HOST_PATTERN": "localhost|127.0.0.1"
 	},
 	"forwardPorts": [
 		80,
