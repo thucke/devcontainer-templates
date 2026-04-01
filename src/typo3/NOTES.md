@@ -43,6 +43,7 @@ FrankenPHP currently *only* runs in classic mode comparable to Apache/mod_php or
 ![Architecture overview](doc/Devcontainer_FrankenPHP.drawio.png)
 
 ### Requirements
+### Requirements
 
 Some requirements regarding the composer configuration are automatically set during initialization before performing install. They MUST NOT be modified afterwards unless you don't want to make use of this devcontainer template anymore.
 
@@ -78,6 +79,7 @@ Some requirements regarding the composer configuration are automatically set dur
 
 ## Getting started with Devcontainer runtimes
 
+### Github Codespaces
 ### Github Codespaces
 
 * Login to Github WebUI and select the desired branch

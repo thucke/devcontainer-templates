@@ -14,7 +14,7 @@ A template to support remote development with TYPO3.
 
 Development with TYPO3 is commonly done using [DDEV environment](https://docs.ddev.com/en/stable/users/quickstart/#typo3). Mainly designed for local use in Docker environment DDEV is being brought also to Codespaces and Kubenetes environments. Anyway DDEV is not outdated though Devcontainer technology seems to be more a standard technology the more tooling support is added.
 
-# Additional information
+## Additional information
 
 Normally a TYPO3 setup consists of the following main parts
 
@@ -32,7 +32,7 @@ This Devcontainer template is based upon the following ruleset:
 * a database backend is started as a separate docker service based on the selected `TYPO3_INSTALL_DB_DRIVER` in the file `.devcontainer/.env` (no backend if `sqlite` is configured)
 * if a `composer.json` file is detected during initialization the PHP application will be automatically initialized
 
-## Provided variances
+### Provided variances
 
 Currently only variances of FrankenPHP integrated webserver (Caddy) with the following PHP versions are provided:
 
@@ -45,7 +45,7 @@ FrankenPHP currently *only* runs in classic mode comparable to Apache/mod_php or
 
 ![Architecture overview](doc/Devcontainer_FrankenPHP.drawio.png)
 
-## Requirements
+### Requirements
 
 Some requirements regarding the composer configuration are automatically set during initialization before performing install. They MUST NOT be modified afterwards unless you don't want to make use of this devcontainer template anymore.
 
@@ -56,7 +56,7 @@ Some requirements regarding the composer configuration are automatically set dur
     composer config extra.typo3/cms.web-dir .build/public
     composer config extra.helhum/dotenv-connector.env-file TYPO3.env
 
-# Useful hints
+## Useful hints
 
 * Re-Initialize TYPO3 environment
   
@@ -68,9 +68,9 @@ Some requirements regarding the composer configuration are automatically set dur
 
   You may modify the file `${WORKSPACE_ROOT}/.devcontainer/.env` with caution if you want to adjust some core TYPO3 settings. After this file has been modified it is recommended to rebuild the whole devcontainer.
 
-# Getting started with Devcontainer runtimes
+## Getting started with Devcontainer runtimes
 
-## Github Codespaces
+### Github Codespaces
 
 * Login to Github WebUI and select the desired branch
 * select the dropdown field `<> Code` / Tab `Codespaces`
