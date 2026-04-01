@@ -9,6 +9,7 @@ A template to support remote development with TYPO3.
 |-----|-----|-----|-----|
 | phpVersion | Select the PHP version to use in the development container. You may choose PHP version from 8.2 to 8.5. | string | 8.4 |
 | webserver | Which webserver do you prefer? Currently only FrankenPHP is supported, but more options will be added in the future. | string | frankenphp |
+| database | Which database would you like to use in your development environment? | string | mysql |
 
 ### Disclaimer
 
@@ -34,11 +35,20 @@ This Devcontainer template is based upon the following ruleset:
 
 ### Provided variances
 
+#### Database
+
+You may choose between
+
+* SQLite (Value: "sqlite")
+* MySql (Default - Value: "mysql")
+
+#### PHP Version
+
 Currently only variances of FrankenPHP integrated webserver (Caddy) with the following PHP versions are provided:
 
 * 8.2
 * 8.3
-* 8.4
+* 8.4 (Default)
 * 8.5
 
 FrankenPHP currently *only* runs in classic mode comparable to Apache/mod_php or PHP-FPM. Unfortunately worker mode is not supported by TYPO3 at this point of time.
@@ -58,6 +68,15 @@ Some requirements regarding the composer configuration are automatically set dur
 
 ## Useful hints
 
+* Working in the TYPO3 Devcontainer
+
+  After the TYPO3 devcontainer environment came up you will find in a container running Debian Trixie:
+
+  * User: `typo3dev`
+  * Homedirectory: `/home/typo3dev`
+  * SUDO-command: *passwordless for any command*
+  * Git-Repository: checked out to `${WORKSPACE_ROOT}`
+
 * Re-Initialize TYPO3 environment
   
   If you need to get a clean TYPO3 environment based upon your configuration you may spawn a terminal window and execute
@@ -67,6 +86,8 @@ Some requirements regarding the composer configuration are automatically set dur
 * TYPO3 environment configuration
 
   You may modify the file `${WORKSPACE_ROOT}/.devcontainer/.env` with caution if you want to adjust some core TYPO3 settings. After this file has been modified it is recommended to rebuild the whole devcontainer.
+
+  **In this file you can find the password of the database root as well as the TYPO3 backend user credentials.**
 
 ## Getting started with Devcontainer runtimes
 
