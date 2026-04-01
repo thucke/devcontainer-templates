@@ -5,7 +5,7 @@ echo "BEGIN: onCreateCommandScript.sh"
 
 # initialize TYPO3.env if not exists
 echo "onCreateCommandScript: Initializing TYPO3.env if not exists"
-[ ! -f ${WORKSPACE_ROOT}/TYPO3.env ] && cp ${WORKSPACE_ROOT}/.devcontainer/docker/TYPO3.env.tmpl ${WORKSPACE_ROOT}/TYPO3.env
+[ ! -f ${WORKSPACE_ROOT}/TYPO3.env ] && cp ${WORKSPACE_ROOT}/.devcontainer/docker/typo3/TYPO3.env.tmpl ${WORKSPACE_ROOT}/TYPO3.env
 
 # configure git safe directories
 echo "onCreateCommandScript: Configuring git safe directories"
