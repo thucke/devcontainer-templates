@@ -1,5 +1,5 @@
 #!/bin/bash
-# 
+#
 # !!!! IMPORTANT: WORKSPACE_ROOT has to be set before sourcing this script
 echo "BEGIN: igniteEnvironment.sh"
 
@@ -8,9 +8,15 @@ pushd ${WORKSPACE_ROOT}
 
 source .devcontainer/docker/parseDotEnv.sh
 
-echo "initializeTYPO3.sh: Reset environment"
+echo "igniteEnvironment.sh: Reset environment"
 rm -rfv config .build/bin .build/public .build/vendor var
-mkdir -vp .build/public var/log/ var/lib/ $(dirname ${TYPO3_INSTALL_DB_DBNAME})
+mkdir -vp .build/public var/log/ var/lib/
+if [ -n ${SQLITE_DBFILE_PATH} ]; then
+  rm -fv ${SQLITE_DBFILE_PATH}
+  mkdir -vp $(dirname ${SQLITE_DBFILE_PATH})
+else
+  echo "igniteEnvironment.sh: No need to create SqLite datafile directory"
+fi
 
 if [ "${TYPO3_INSTALL_DB_DRIVER}" == "mysqli" ]; then
   echo "Using MySQL/MariaDB as database - resetting database"
@@ -20,9 +26,9 @@ if [ "${TYPO3_INSTALL_DB_DRIVER}" == "mysqli" ]; then
       mysql -h${TYPO3_INSTALL_DB_HOST} -P${TYPO3_INSTALL_DB_PORT} -u${TYPO3_INSTALL_DB_USER} -p${TYPO3_INSTALL_DB_PASSWORD} -v ${TYPO3_INSTALL_DB_DBNAME}
 
     mysql -h${TYPO3_INSTALL_DB_HOST} -P${TYPO3_INSTALL_DB_PORT} -u${TYPO3_INSTALL_DB_USER} -p${TYPO3_INSTALL_DB_PASSWORD} --init-command='USE '${TYPO3_INSTALL_DB_DBNAME} < .devcontainer/docker/db/initdb/2_create_procedure.sql
-elif [ "${TYPO3_INSTALL_DB_DRIVER}" == "pdo_sqlite" ] && [ -f ${TYPO3_INSTALL_DB_DBNAME} ]; then
+elif [ "${TYPO3_INSTALL_DB_DRIVER}" == "pdo_sqlite" ] && [ -f ${SQLITE_DBFILE_PATH} ]; then
   echo "Using SQLite as database - resetting database"
-  rm -fv ${TYPO3_INSTALL_DB_DBNAME}
+  rm -fv ${SQLITE_DBFILE_PATH}
 fi
 
 if [ -f ${WORKSPACE_ROOT}/composer.json ]; then
