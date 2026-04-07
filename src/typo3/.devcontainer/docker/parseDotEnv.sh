@@ -2,11 +2,11 @@
 # parse .env file of the current project
 # the convention is that this file should reside in the parent dir of the project
 # having the same name as the project dir extended by '.env'
-# 
+#
 # !!!! IMPORTANT: WORKSPACE_ROOT has to be set before sourcing this script
 set +u
 # quit if env vars have been already set
-[ -n "${DB_CONNECTION_ROOT_PASSWORD}" ] && echo ".env alread set" && return 0
+[ -n "${TYPO3_INSTALL_DB_DRIVER}" ] && echo ".env alread set" && return 0
 set -u
 
 dotEnvFile="$(dirname $WORKSPACE_ROOT)/TYPO3.env"
@@ -32,4 +32,3 @@ elif [ "${DB_SERVER_TYPE}" == "sqlite" ]; then
   export TYPO3_INSTALL_DB_DRIVER="pdo_sqlite"
   export TYPO3_INSTALL_DB_DBNAME="${SQLITE_DBFILE_PATH}"
 fi
-
