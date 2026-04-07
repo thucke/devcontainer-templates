@@ -35,37 +35,19 @@ if [ -f ${WORKSPACE_ROOT}/composer.json ]; then
   echo "initializeTYPO3.sh: Found composer.json - running initializeTYPO3.sh"
   chmod +x .devcontainer/docker/initializeTYPO3.sh
   .devcontainer/docker/initializeTYPO3.sh
-
-  echo "initializeTYPO3.sh: Running composer up"
-  composer up
-
-  if [ ! -f config/system/additional.php ]; then
-    echo "initializeTYPO3.sh: Add additional.php if not exists"
-    cp .devcontainer/docker/typo3/additional.php config/system/additional.php
-  else
-    echo "initializeTYPO3.sh: additional.php already exists - skipping"
-  fi
-
-  if [ "${TYPO3_INSTALL_DB_DRIVER}" == "mysqli" ]; then
-    echo "initializeTYPO3.sh: Fix TYPO3 image references"
-    mysql -h127.0.0.1 -P3306 -u${TYPO3_INSTALL_DB_USER} -p${TYPO3_INSTALL_DB_PASSWORD} -e 'use '${TYPO3_INSTALL_DB_DBNAME}'; call fixImgInTtContent();'
-  else
-    echo "initializeTYPO3.sh: Fix TYPO3 image references - skipping as database driver is not mysqli"
-  fi
-
-  if [ "${COMPOSE_PROFILES}" == "php-fpm" ]; then
-    echo "initializeTYPO3.sh: Checking for running php-fpm"
-    .devcontainer/php-fpm/server.sh restart
-  elif [ "${COMPOSE_PROFILES}" == "apache" ]; then
-    echo "initializeTYPO3.sh: Restarting Apache"
-    .devcontainer/php-fpm/server.sh
-  elif [ "${COMPOSE_PROFILES}" == "frankenphp" ]; then
-    echo "initializeTYPO3.sh: Restarting FrankenPHP"
-    .devcontainer/docker/frankenphp/server.sh restart
-  fi
-
 else
   echo "No composer.json found - skipping initializeTYPO3.sh and composer up"
+fi
+
+if [ "${COMPOSE_PROFILES}" == "php-fpm" ]; then
+    echo "initializeTYPO3.sh: Checking for running php-fpm"
+    .devcontainer/php-fpm/server.sh restart
+elif [ "${COMPOSE_PROFILES}" == "apache" ]; then
+    echo "initializeTYPO3.sh: Restarting Apache"
+    .devcontainer/php-fpm/server.sh
+elif [ "${COMPOSE_PROFILES}" == "frankenphp" ]; then
+    echo "initializeTYPO3.sh: Restarting FrankenPHP"
+    .devcontainer/docker/frankenphp/server.sh restart
 fi
 
 echo "END: igniteEnvironment.sh"

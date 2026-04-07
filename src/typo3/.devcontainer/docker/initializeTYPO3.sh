@@ -4,6 +4,20 @@ set -eu
 # post start script
 echo "BEGIN: initializeTYPO3.sh"
 
+if [ ! -f config/system/additional.php ]; then
+    echo "initializeTYPO3.sh: Add additional.php if not exists"
+    cp .devcontainer/docker/typo3/additional.php config/system/additional.php
+else
+    echo "initializeTYPO3.sh: additional.php already exists - skipping"
+fi
+
+if [ "${TYPO3_INSTALL_DB_DRIVER}" == "mysqli" ]; then
+    echo "initializeTYPO3.sh: Fix TYPO3 image references"
+    mysql -h127.0.0.1 -P3306 -u${TYPO3_INSTALL_DB_USER} -p${TYPO3_INSTALL_DB_PASSWORD} -e 'use '${TYPO3_INSTALL_DB_DBNAME}'; call fixImgInTtContent();'
+else
+    echo "initializeTYPO3.sh: Fix TYPO3 image references - skipping as database driver is not mysqli"
+fi
+
 echo "initializeTYPO3: Checking if site already has been initialized"
 if test ! -d .build/vendor; then
   echo "initializeTYPO3: Initialize TYPO3"
@@ -39,5 +53,8 @@ chgrp ${DEVCONTAINER_SERVICE_NAME} ${WORKSPACE_ROOT}
 # needed as directory check moans about wrong permissions
 echo "initializeTYPO3: Update file permissions"
 chmod -R 2770 .build config var
+
+echo "initializeTYPO3.sh: Running composer up"
+composer up
 
 echo "END: initializeTYPO3.sh"
