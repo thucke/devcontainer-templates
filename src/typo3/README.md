@@ -83,6 +83,12 @@ Some requirements regarding the composer configuration are automatically set dur
   
    `${WORKSPACE_ROOT}/.devcontainer/docker/igniteEnvironment.sh`
 
+* Update devcontainer template
+
+If you want to update the devcontainer configuration e.g. after a new template version has been published you can make use of the [Dev Container CLI](https://github.com/devcontainers/cli) with the following command:
+
+    devcontainer templates apply --template-id ghcr.io/thucke/devcontainer-templates/typo3  --template-args "{\"database\": \"mysql\"}" -w ${WORKSPACE_ROOT}. 
+
 * TYPO3 environment configuration
 
   You may modify the file `${WORKSPACE_ROOT}/.devcontainer/.env` with caution if you want to adjust some core TYPO3 settings. After this file has been modified it is recommended to rebuild the whole devcontainer.
