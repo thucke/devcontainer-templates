@@ -40,12 +40,12 @@ fi
 
 # take care of file ownership esp. to support cross container functionality
 echo "initializeTYPO3: Update file and directory ownership"
-chown -R ${DEVCONTAINER_SERVICE_NAME}:${DEVCONTAINER_SERVICE_NAME} config .build var
-chgrp ${DEVCONTAINER_SERVICE_NAME} ${WORKSPACE_ROOT}
+sudo chown -R ${DEVCONTAINER_SERVICE_NAME}:${DEVCONTAINER_SERVICE_NAME} config .build var
+sudo chgrp ${DEVCONTAINER_SERVICE_NAME} ${WORKSPACE_ROOT}
 
 # needed as directory check moans about wrong permissions
 echo "initializeTYPO3: Update file permissions"
-chmod -R 2770 .build config var
+sudo chmod -R 2770 .build config var
 
 echo "initializeTYPO3.sh: Running composer up"
 composer up

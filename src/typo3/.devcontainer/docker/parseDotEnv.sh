@@ -15,7 +15,7 @@ if [[ ${DB_SERVER_TYPE} =~ (mysql|mariadb) ]]; then
   export TYPO3_INSTALL_DB_DRIVER="mysqli"
   export TYPO3_INSTALL_DB_DBNAME="${MYSQLI_DBNAME}"
 elif [ "${DB_SERVER_TYPE}" == "sqlite" ]; then
-  export TYPO3_INSTALL_DB_DRIVER="pdo_sqlite"
+  export TYPO3_INSTALL_DB_DRIVER="sqlite"
   export TYPO3_INSTALL_DB_DBNAME="${SQLITE_DBFILE_PATH}"
 fi
 

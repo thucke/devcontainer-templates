@@ -10,6 +10,12 @@ Homepage: [Github](https://github.com/thucke/devcontainer-templates/tree/main/sr
   * Homedirectory: `/home/typo3dev`
   * SUDO-command: *passwordless for any command*
   * Git-Repository: checked out to `${WORKSPACE_ROOT}`
+  
+## TYPO3 WebUI
+
+URL: [Frontend](http://127.0.0.1)
+
+First calls to TYPO3 my result to exceptions in the file `.build/vendor/scssphp/scssphp/src/Compiler.php`. I don't have an idea about the reason but they will disappear after one or two refreshes.  
 
 ## Re-Initialize TYPO3 environment
 
@@ -21,10 +27,26 @@ Homepage: [Github](https://github.com/thucke/devcontainer-templates/tree/main/sr
 
 If you want to update the devcontainer configuration e.g. after a new template version has been published you can make use of the [Dev Container CLI](https://github.com/devcontainers/cli) with the following command (**make sure you're in the root directory of your repository**):
 
-    devcontainer templates apply --template-id ghcr.io/thucke/devcontainer-templates/typo3  --template-args "{\"database\": \"mysql\"}" -w .
+    devcontainer templates apply --template-id ghcr.io/thucke/devcontainer-templates/typo3  --template-args "{\"database\": \"mysql\", \"phpVersion\": \"8.4\"}" -w .
+
+Valid values:
+* `database`: `mysql` || `sqlite`
+* `phpVersion`: `8.2` || `8.3` || `8.4` || `8.5`
 
 ## TYPO3 environment configuration
 
   You may modify the file `${WORKSPACE_ROOT}/.devcontainer/.env` with caution if you want to adjust some core TYPO3 settings. After this file has been modified it is recommended to rebuild the whole devcontainer.
 
   **In this file you can find the password of the database root as well as the TYPO3 backend user credentials.**
+
+## Database connection (Default settings)
+
+### `mysql`
+
+You may prefer to use a db client extension of your IDE or the preinstalled adminer web UI that can be reached out with [this link](http://127.0.0.1:8080) after all containers started successfully.
+
+* Host: `127.0.0.1`
+* Port: `3306`
+* Database: `db`
+* Username: `root`
+* Password: `dbroot`
