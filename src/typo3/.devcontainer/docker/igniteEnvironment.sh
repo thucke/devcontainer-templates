@@ -1,66 +1,60 @@
 #!/bin/bash
-# 
-# !!!! IMPORTANT: WORKSPACE_ROOT has to be set before sourcing this script
-echo "BEGIN: igniteEnvironment.sh"
+set -eu
 
-set -u
-pushd ${WORKSPACE_ROOT}
+# post start script
+echo "BEGIN: initializeTYPO3.sh"
 
-source .devcontainer/docker/parseDotEnv.sh
-
-echo "initializeTYPO3.sh: Reset environment"
-rm -rfv config .build/bin .build/public .build/vendor var
-mkdir -vp .build/public var/log/ var/lib/ $(dirname ${TYPO3_INSTALL_DB_DBNAME})
-
-if [ "${TYPO3_INSTALL_DB_DRIVER}" == "mysqli" ]; then
-  echo "Using MySQL/MariaDB as database - resetting database"
-  # Drop all database tables
-  mysql -h${TYPO3_INSTALL_DB_HOST} -P${TYPO3_INSTALL_DB_PORT} -u${TYPO3_INSTALL_DB_USER} -p${TYPO3_INSTALL_DB_PASSWORD} --silent --skip-column-names -e "SHOW TABLES" ${TYPO3_INSTALL_DB_DBNAME} | \
-      xargs -I% echo 'SET FOREIGN_KEY_CHECKS = 0; DROP TABLE %; SET FOREIGN_KEY_CHECKS = 1;' | \
-      mysql -h${TYPO3_INSTALL_DB_HOST} -P${TYPO3_INSTALL_DB_PORT} -u${TYPO3_INSTALL_DB_USER} -p${TYPO3_INSTALL_DB_PASSWORD} -v ${TYPO3_INSTALL_DB_DBNAME}
-
-    mysql -h${TYPO3_INSTALL_DB_HOST} -P${TYPO3_INSTALL_DB_PORT} -u${TYPO3_INSTALL_DB_USER} -p${TYPO3_INSTALL_DB_PASSWORD} --init-command='USE '${TYPO3_INSTALL_DB_DBNAME} < .devcontainer/docker/db/initdb/2_create_procedure.sql
-elif [ "${TYPO3_INSTALL_DB_DRIVER}" == "pdo_sqlite" ] && [ -f ${TYPO3_INSTALL_DB_DBNAME} ]; then
-  echo "Using SQLite as database - resetting database"
-  rm -fv ${TYPO3_INSTALL_DB_DBNAME}
+echo "initializeTYPO3: Checking if site already has been initialized"
+if test ! -d .build/vendor; then
+  echo "initializeTYPO3: Initialize TYPO3"
+  composer config allow-plugins.helhum/dotenv-connector true
+  composer require --no-scripts --no-interaction --dev "helhum/dotenv-connector"
+  composer require --no-scripts --no-interaction --dev "helhum/typo3-console"
+  composer config bin-dir .build/bin
+  composer config vendor-dir .build/vendor
+  composer config extra.typo3/cms.web-dir .build/public
+  composer config extra.helhum/dotenv-connector.env-file .devcontainer/docker/typo3/TYPO3.env
+  composer install
+  # Add .build/bin to PATH
+  [[ ":$PATH:" != *":${WORKSPACE_ROOT}/.build/bin:"* ]] && export PATH="${WORKSPACE_ROOT}/.build/bin:${PATH}"
 fi
 
-if [ -f ${WORKSPACE_ROOT}/composer.json ]; then
-  echo "initializeTYPO3.sh: Found composer.json - running initializeTYPO3.sh"
-  chmod +x .devcontainer/docker/initializeTYPO3.sh
-  .devcontainer/docker/initializeTYPO3.sh
+typo3_major_version=$(typo3 -V|grep "TYPO3 CMS"|perl -n -e '/\ ([\d]+)/ && print $1')
+echo "initializeTYPO3: Running on TYPO3 major version ${typo3_major_version}"
 
-  echo "initializeTYPO3.sh: Running composer up"
-  composer up
+echo "initializeTYPO3: DB compare"
+typo3 database:updateschema --no-interaction --no-ansi || true
 
-  if [ ! -f config/system/additional.php ]; then
+echo "initializeTYPO3: Update reference index"
+typo3 referenceindex:update --no-interaction --no-ansi || true
+
+#echo "initializeTYPO3: Create new backend user"
+#$typo3_cli backend:createadmin ${TYPO3_INSTALL_ADMIN_USER} ${TYPO3_INSTALL_ADMIN_PASSWORD} --no-interaction --no-ansi || true
+
+if [ ! -f config/system/additional.php ]; then
     echo "initializeTYPO3.sh: Add additional.php if not exists"
     cp .devcontainer/docker/typo3/additional.php config/system/additional.php
-  else
-    echo "initializeTYPO3.sh: additional.php already exists - skipping"
-  fi
-
-  if [ "${TYPO3_INSTALL_DB_DRIVER}" == "mysqli" ]; then
-    echo "initializeTYPO3.sh: Fix TYPO3 image references"
-    mysql -h127.0.0.1 -P3306 -u${TYPO3_INSTALL_DB_USER} -p${TYPO3_INSTALL_DB_PASSWORD} -e 'use '${TYPO3_INSTALL_DB_DBNAME}'; call fixImgInTtContent();'
-  else
-    echo "initializeTYPO3.sh: Fix TYPO3 image references - skipping as database driver is not mysqli"
-  fi
-
-  if [ "${COMPOSE_PROFILES}" == "php-fpm" ]; then
-    echo "initializeTYPO3.sh: Checking for running php-fpm"
-    .devcontainer/php-fpm/server.sh restart
-  elif [ "${COMPOSE_PROFILES}" == "apache" ]; then
-    echo "initializeTYPO3.sh: Restarting Apache"
-    .devcontainer/php-fpm/server.sh
-  elif [ "${COMPOSE_PROFILES}" == "frankenphp" ]; then
-    echo "initializeTYPO3.sh: Restarting FrankenPHP"
-    .devcontainer/docker/frankenphp/server.sh restart
-  fi
-
 else
-  echo "No composer.json found - skipping initializeTYPO3.sh and composer up"
+    echo "initializeTYPO3.sh: additional.php already exists - skipping"
 fi
 
-echo "END: igniteEnvironment.sh"
-popd
+# take care of file ownership esp. to support cross container functionality
+echo "initializeTYPO3: Update file and directory ownership"
+chown -R ${DEVCONTAINER_SERVICE_NAME}:${DEVCONTAINER_SERVICE_NAME} config .build var
+chgrp ${DEVCONTAINER_SERVICE_NAME} ${WORKSPACE_ROOT}
+
+# needed as directory check moans about wrong permissions
+echo "initializeTYPO3: Update file permissions"
+chmod -R 2770 .build config var
+
+echo "initializeTYPO3.sh: Running composer up"
+composer up
+
+if [ "${TYPO3_INSTALL_DB_DRIVER}" == "mysqli" ]; then
+    echo "initializeTYPO3.sh: Fix TYPO3 image references"
+    mysql -h127.0.0.1 -P3306 -u${TYPO3_INSTALL_DB_USER} -p${TYPO3_INSTALL_DB_PASSWORD} -e 'use '${TYPO3_INSTALL_DB_DBNAME}'; call fixImgInTtContent();'
+else
+    echo "initializeTYPO3.sh: Fix TYPO3 image references - skipping as database driver is not mysqli"
+fi
+
+echo "END: initializeTYPO3.sh"
