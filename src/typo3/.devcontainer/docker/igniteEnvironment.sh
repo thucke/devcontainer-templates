@@ -3,10 +3,11 @@
 # !!!! IMPORTANT: WORKSPACE_ROOT has to be set before sourcing this script
 echo "BEGIN: igniteEnvironment.sh"
 
-set -u
-pushd ${WORKSPACE_ROOT}
+typo3_major_version=$(typo3 -V|grep "TYPO3 CMS"|perl -n -e '/\ ([\d]+)/ && print $1')
+echo "initializeTYPO3: Running on TYPO3 major version ${typo3_major_version}"
 
-source .devcontainer/docker/parseDotEnv.sh
+echo "initializeTYPO3: DB compare"
+typo3 database:updateschema --no-interaction --no-ansi || true
 
 echo "igniteEnvironment.sh: Reset environment"
 rm -rfv config .build/bin .build/public .build/vendor var
@@ -18,12 +19,8 @@ else
   echo "igniteEnvironment.sh: No need to create SqLite datafile directory"
 fi
 
-if [ "${TYPO3_INSTALL_DB_DRIVER}" == "mysqli" ]; then
-  echo "Using MySQL/MariaDB as database - resetting database"
-  # Drop all database tables
-  mysql -h${TYPO3_INSTALL_DB_HOST} -P${TYPO3_INSTALL_DB_PORT} -u${TYPO3_INSTALL_DB_USER} -p${TYPO3_INSTALL_DB_PASSWORD} --silent --skip-column-names -e "SHOW TABLES" ${TYPO3_INSTALL_DB_DBNAME} | \
-      xargs -I% echo 'SET FOREIGN_KEY_CHECKS = 0; DROP TABLE %; SET FOREIGN_KEY_CHECKS = 1;' | \
-      mysql -h${TYPO3_INSTALL_DB_HOST} -P${TYPO3_INSTALL_DB_PORT} -u${TYPO3_INSTALL_DB_USER} -p${TYPO3_INSTALL_DB_PASSWORD} -v ${TYPO3_INSTALL_DB_DBNAME}
+#echo "initializeTYPO3: Create new backend user"
+#$typo3_cli backend:createadmin ${TYPO3_INSTALL_ADMIN_USER} ${TYPO3_INSTALL_ADMIN_PASSWORD} --no-interaction --no-ansi || true
 
     mysql -h${TYPO3_INSTALL_DB_HOST} -P${TYPO3_INSTALL_DB_PORT} -u${TYPO3_INSTALL_DB_USER} -p${TYPO3_INSTALL_DB_PASSWORD} --init-command='USE '${TYPO3_INSTALL_DB_DBNAME} < .devcontainer/docker/db/initdb/2_create_procedure.sql
 elif [ "${TYPO3_INSTALL_DB_DRIVER}" == "pdo_sqlite" ] && [ -f ${SQLITE_DBFILE_PATH} ]; then
@@ -50,5 +47,4 @@ elif [[ "${COMPOSE_PROFILES}" =~ "frankenphp" ]]; then
     .devcontainer/docker/frankenphp/server.sh restart
 fi
 
-echo "END: igniteEnvironment.sh"
-popd
+echo "END: initializeTYPO3.sh"
