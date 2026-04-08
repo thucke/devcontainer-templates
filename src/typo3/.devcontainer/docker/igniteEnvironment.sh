@@ -32,7 +32,7 @@ elif [ "${TYPO3_INSTALL_DB_DRIVER}" == "pdo_sqlite" ] && [ -f ${SQLITE_DBFILE_PA
 fi
 
 if [ -f ${WORKSPACE_ROOT}/composer.json ]; then
-  echo "initializeTYPO3.sh: Found composer.json - running initializeTYPO3.sh"
+  echo "igniteEnvironment.sh: Found composer.json - running initializeTYPO3.sh"
   chmod +x .devcontainer/docker/initializeTYPO3.sh
   .devcontainer/docker/initializeTYPO3.sh
 else
@@ -40,13 +40,13 @@ else
 fi
 
 if [[ "${COMPOSE_PROFILES}" =~ "php-fpm" ]]; then
-    echo "initializeTYPO3.sh: Checking for running php-fpm"
+    echo "igniteEnvironment.sh: Checking for running php-fpm"
     .devcontainer/php-fpm/server.sh restart
 elif [[ "${COMPOSE_PROFILES}" =~ "apache" ]]; then
-    echo "initializeTYPO3.sh: Restarting Apache"
+    echo "igniteEnvironment.sh: Restarting Apache"
     .devcontainer/php-fpm/server.sh
 elif [[ "${COMPOSE_PROFILES}" =~ "frankenphp" ]]; then
-    echo "initializeTYPO3.sh: Restarting FrankenPHP"
+    echo "igniteEnvironment.sh: Restarting FrankenPHP"
     .devcontainer/docker/frankenphp/server.sh restart
 fi
 
