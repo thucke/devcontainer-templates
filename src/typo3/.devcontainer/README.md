@@ -12,16 +12,16 @@ Homepage: [Github](https://github.com/thucke/devcontainer-templates/tree/main/sr
   * Git-Repository: checked out to `${WORKSPACE_ROOT}`
 
 ## Re-Initialize TYPO3 environment
-  
+
   If you need to get a clean TYPO3 environment based upon your configuration you may spawn a terminal window and execute
-  
+
    `${WORKSPACE_ROOT}/.devcontainer/docker/igniteEnvironment.sh`
 
 ## Update devcontainer template
 
-If you want to update the devcontainer configuration e.g. after a new template version has been published you can make use of the [Dev Container CLI](https://github.com/devcontainers/cli) with the following command:
+If you want to update the devcontainer configuration e.g. after a new template version has been published you can make use of the [Dev Container CLI](https://github.com/devcontainers/cli) with the following command (**make sure you're in the root directory of your repository**):
 
-    devcontainer templates apply --template-id ghcr.io/thucke/devcontainer-templates/typo3  --template-args "{\"database\": \"mysql\"}" -w ${WORKSPACE_ROOT}. 
+    devcontainer templates apply --template-id ghcr.io/thucke/devcontainer-templates/typo3  --template-args "{\"database\": \"mysql\"}" -w .
 
 ## TYPO3 environment configuration
 
