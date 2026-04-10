@@ -3,17 +3,13 @@ set -eu
 
 echo "BEGIN: onCreateCommandScript.sh"
 
-# initialize TYPO3.env if not exists
-#echo "onCreateCommandScript: Initializing TYPO3.env if not exists"
-#[ ! -f ${WORKSPACE_ROOT}/TYPO3.env ] && cp ${WORKSPACE_ROOT}/.devcontainer/docker/typo3/TYPO3.env.tmpl ${WORKSPACE_ROOT}/TYPO3.env
-#grep "/TYPO3.env" ${WORKSPACE_ROOT}/.gitignore || echo "/TYPO3.env" >> ${WORKSPACE_ROOT}/.gitignore
-
-# configure git safe directories
 echo "onCreateCommandScript: Configuring git safe directories"
 git config --global --add safe.directory ${WORKSPACE_ROOT}
 
-# make scripts executable
+echo "onCreateCommandScript: Globally set ownership of workspace root"
+sudo chgrp ${DEVCONTAINER_SERVICE_NAME} ${WORKSPACE_ROOT}
+
 echo "onCreateCommandScript: Making scripts executable"
-find ${WORKSPACE_ROOT}/.devcontainer -name *.sh -type f -exec chmod -c +x {} \;
+find ${WORKSPACE_ROOT}/.devcontainer -name *.sh -type f -not -executable -exec sudo chmod -c +x {} \;
 
 echo "END: onCreateCommandScript.sh"

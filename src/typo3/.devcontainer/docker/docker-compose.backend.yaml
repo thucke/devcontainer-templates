@@ -29,7 +29,7 @@ services:
     networks:
       - devcontainer
     profiles: [php-fpm, nginx]
-  db:
+  mysql:
     build:
       context: ..
       dockerfile: ${WORKSPACE_ROOT}/.devcontainer/docker/db/mysql/Dockerfile
@@ -37,9 +37,9 @@ services:
     restart: unless-stopped
     volumes:
       #- db-data:/var/lib/mysql
-      - type: bind
-        source: ${WORKSPACE_ROOT}/.devcontainer/docker/db/mysql/mysql.cnf
-        target: /etc/mysql/conf.d/custom.cnf
+      #- type: bind
+      #  source: ${WORKSPACE_ROOT}/.devcontainer/docker/db/mysql/custom.cnf
+      #  target: /etc/mysql/conf.d/custom.cnf
       - type: bind
         source: ${WORKSPACE_ROOT}/.devcontainer/docker/db/initdb
         target: /docker-entrypoint-initdb.d
@@ -51,7 +51,35 @@ services:
     env_file:
       - path: ${WORKSPACE_ROOT}/.devcontainer/.env
         required: "true"
-      - path: ${WORKSPACE_ROOT}/.devcontainer/docker/db/initdb/.env
+      - path: ${WORKSPACE_ROOT}/.devcontainer/docker/db/mysql/.env
+        required: "true"
+    healthcheck:
+      test: ["CMD-SHELL", "mysql -uroot -p$${MYSQL_ROOT_PASSWORD} --execute \"SHOW DATABASES;\" || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+      start_interval: 10s
+  mariadb:
+    image: mariadb:12-ubi
+    command: mariadbd
+    restart: unless-stopped
+    volumes:
+      #- type: bind
+      #  source: ${WORKSPACE_ROOT}/.devcontainer/docker/db/mariadb/custom.cnf
+      #  target: /etc/my.cnf.d/custom.cnf
+      - type: bind
+        source: ${WORKSPACE_ROOT}/.devcontainer/docker/db/initdb
+        target: /docker-entrypoint-initdb.d
+    networks:
+      - devcontainer
+    profiles: [mariadb]
+    ports:
+      - 3306:3306
+    env_file:
+      - path: ${WORKSPACE_ROOT}/.devcontainer/.env
+        required: "true"
+      - path: ${WORKSPACE_ROOT}/.devcontainer/docker/db/mariadb/.env
         required: "true"
     healthcheck:
       test: ["CMD-SHELL", "mysql -uroot -p$${MYSQL_ROOT_PASSWORD} --execute \"SHOW DATABASES;\" || exit 1"]
@@ -71,7 +99,10 @@ services:
     ports:
       - 8080:8080
     depends_on:
-      db:
+      mysql:
+        condition: service_healthy
+        required: false
+      mariadb:
         condition: service_healthy
         required: false
 

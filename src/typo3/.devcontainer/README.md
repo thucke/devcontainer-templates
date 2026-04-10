@@ -6,16 +6,16 @@ Homepage: [Github](https://github.com/thucke/devcontainer-templates/tree/main/sr
 
   After the TYPO3 devcontainer environment came up you will find in a container running Debian Trixie:
 
-  * User: `typo3dev`
-  * Homedirectory: `/home/typo3dev`
-  * SUDO-command: *passwordless for any command*
-  * Git-Repository: checked out to `${WORKSPACE_ROOT}`
-  
+* User: `typo3dev`
+* Homedirectory: `/home/typo3dev`
+* SUDO-command: *passwordless for any command*
+* Git-Repository: checked out to `${WORKSPACE_ROOT}`
+
 ## TYPO3 WebUI
 
 URL: [Frontend](http://127.0.0.1)
 
-First calls to TYPO3 my result to exceptions in the file `.build/vendor/scssphp/scssphp/src/Compiler.php`. I don't have an idea about the reason but they will disappear after one or two refreshes.  
+First calls to TYPO3 my result to exceptions in the file `.build/vendor/scssphp/scssphp/src/Compiler.php`. I don't have an idea about the reason but they will disappear after one or two refreshes.
 
 ## Re-Initialize TYPO3 environment
 
@@ -30,7 +30,8 @@ If you want to update the devcontainer configuration e.g. after a new template v
     devcontainer templates apply --template-id ghcr.io/thucke/devcontainer-templates/typo3  --template-args "{\"database\": \"mysql\", \"phpVersion\": \"8.4\"}" -w .
 
 Valid values:
-* `database`: `mysql` || `sqlite`
+
+* `database`: `mysql` || `mariadb` ||`sqlite`
 * `phpVersion`: `8.2` || `8.3` || `8.4` || `8.5`
 
 ## TYPO3 environment configuration
@@ -45,7 +46,21 @@ Valid values:
 
 You may prefer to use a db client extension of your IDE or the preinstalled adminer web UI that can be reached out with [this link](http://127.0.0.1:8080) after all containers started successfully.
 
-* Host: `127.0.0.1`
+* Host
+  * VS Code: `127.0.0.1`
+  * Adminer: `mysql`
+* Port: `3306`
+* Database: `db`
+* Username: `root`
+* Password: `dbroot`
+
+### `mariadb`
+
+You may prefer to use a db client extension of your IDE or the preinstalled adminer web UI that can be reached out with [this link](http://127.0.0.1:8080) after all containers started successfully.
+
+* Host
+  * VS Code: `127.0.0.1`
+  * Adminer: `mariadb`
 * Port: `3306`
 * Database: `db`
 * Username: `root`
