@@ -9,7 +9,7 @@ pushd ${WORKSPACE_ROOT}
 source .devcontainer/docker/parseDotEnv.sh
 
 echo "igniteEnvironment.sh: Reset environment"
-rm -rfv config .build/bin .build/public .build/vendor var
+rm -rf config .build/bin .build/public .build/vendor var
 mkdir -vp .build/public var/log/ var/lib
 if [ "${DB_SERVER_TYPE}" == "sqlite" ]; then
   rm -fv ${SQLITE_DBFILE_PATH}
@@ -33,7 +33,7 @@ fi
 
 if [ -f ${WORKSPACE_ROOT}/composer.json ]; then
   echo "igniteEnvironment.sh: Found composer.json - running initializeTYPO3.sh"
-  chmod +x .devcontainer/docker/initializeTYPO3.sh
+  sudo chmod -c +x .devcontainer/docker/initializeTYPO3.sh
   .devcontainer/docker/initializeTYPO3.sh
 else
   echo "No composer.json found - skipping initializeTYPO3.sh and composer up"

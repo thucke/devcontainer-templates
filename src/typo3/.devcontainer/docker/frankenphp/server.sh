@@ -17,6 +17,9 @@ if [ "$1" == "restart" ]; then
 fi
 
 if [ $(pidof frankenphp| wc -w) -eq 0 ]; then
+  echo "server.sh: Copy TYPO3 PHP configuration for frankenphp"
+  sudo cp -fv /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
+  sudo cp -fv ${WORKSPACE_ROOT}/.devcontainer/docker/typo3/php.ini /usr/local/etc/php/conf.d/typo3.ini
   echo "server.sh: Starting frankenphp in daemon mode"
   nohup frankenphp run --config ${WORKSPACE_ROOT}/.devcontainer/docker/typo3/typo3.caddyfile >/dev/null 2>&1 &
   #nohup frankenphp run --config ${WORKSPACE_ROOT}/.devcontainer/docker/typo3/typo3.caddyfile >>${WORKSPACE_ROOT}/frankenphp.log 2>&1 &

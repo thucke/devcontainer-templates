@@ -2,7 +2,8 @@
 	"name": "TYPO3 Dev Container",
 	"image": "ghcr.io/thucke/devcontainers/typo3-${templateOption:webserver}:1-php${templateOption:phpVersion}-trixie",
 	"runArgs": [
-		"--env-file=.devcontainer/.env"
+		"--env-file=.devcontainer/.env",
+		"--workdir=/workspaces/${localWorkspaceFolderBasename}"
 	],
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 	"mounts": [
@@ -49,7 +50,7 @@
 			"label": "Mysql Adminer"
 		}
 	},
-	"onCreateCommand": "chmod -c +x .devcontainer/onCreateCommandScript.sh && .devcontainer/onCreateCommandScript.sh",
+	"onCreateCommand": "sudo chmod -c +x .devcontainer/onCreateCommandScript.sh && .devcontainer/onCreateCommandScript.sh",
 	"postCreateCommand": ".devcontainer/postCreateCommandScript.sh",
 	"postAttachCommand": ".devcontainer/postAttachCommandScript.sh",
 	"customizations": {

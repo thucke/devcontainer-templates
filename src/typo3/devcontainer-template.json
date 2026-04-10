@@ -1,6 +1,6 @@
 {
     "id": "typo3",
-    "version": "0.4.0",
+    "version": "0.5.0",
     "name": "Typo3",
     "description": "A template to support remote development with TYPO3.",
     "documentationURL": "https://github.com/thucke/devcontainer-templates/tree/main/src/typo3",
@@ -30,7 +30,8 @@
             "description": "Which database would you like to use in your development environment?",
             "proposals": [
                 "sqlite",
-                "mysql"
+                "mysql",
+                "mariadb"
             ],
             "default": "mysql"
         }
