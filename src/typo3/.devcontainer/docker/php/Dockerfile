@@ -84,6 +84,6 @@ ENV PATH=$PATH:$COMPOSER_HOME
 
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar "$COMPOSER_BINARY" && \
-    chmod +x "$COMPOSER_BINARY"
+    chmod -c +x "$COMPOSER_BINARY"
 
 #CMD ["php-fpm", "-D", "-c", "/etc/php8/fpm"]

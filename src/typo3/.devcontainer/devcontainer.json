@@ -47,7 +47,7 @@
 			"label": "Mysql/MariaDB database"
 		},
 		"8080": {
-			"label": "Mysql Adminer"
+			"label": "Mysql/MariaDB Adminer"
 		}
 	},
 	"onCreateCommand": "sudo chmod -c +x .devcontainer/onCreateCommandScript.sh && .devcontainer/onCreateCommandScript.sh",
