@@ -90,7 +90,7 @@ ENV PATH=$PATH:$COMPOSER_HOME
 
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar "$COMPOSER_BINARY" && \
-    chmod +x "$COMPOSER_BINARY"
+    chmod -c +x "$COMPOSER_BINARY"
 
 ##################################################################################
 # configuration according to https://docs.typo3.org/m/typo3/reference-coreapi/main/en-us/Administration/Installation/SystemRequirements/Index.html#using-typo3-with-docker-based-environments

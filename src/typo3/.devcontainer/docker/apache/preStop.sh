@@ -7,7 +7,7 @@ pushd ${WORKSPACE_ROOT}
 trap "popd" EXIT
 
 # needed as directory check moans about wrong permissions
-chmod +x .build/typo3/dumpData.sh
+chmod -c +x .build/typo3/dumpData.sh
 .build/typo3/dumpData.sh
 
 popd
