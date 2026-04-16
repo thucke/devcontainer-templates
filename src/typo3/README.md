@@ -40,7 +40,9 @@ This Devcontainer template is based upon the following ruleset:
 You may choose between
 
 * SQLite (Value: "sqlite")
+* MariaDB (Value: "mariadb")
 * MySql (Default - Value: "mysql")
+* PostgreSQL (Value: "postgresql")
 
 #### PHP Version
 
@@ -67,6 +69,8 @@ Some requirements regarding the composer configuration are automatically set dur
     composer config extra.helhum/dotenv-connector.env-file TYPO3.env
 
 ## Useful hints
+
+* `README.md` in `.devcontainer` holds additional useful information
 
 * Working in the TYPO3 Devcontainer
 

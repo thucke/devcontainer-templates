@@ -31,7 +31,7 @@ If you want to update the devcontainer configuration e.g. after a new template v
 
 Valid values:
 
-* `database`: `mysql` || `mariadb` ||`sqlite`
+* `database`: `mysql` || `mariadb` ||`sqlite` || `postgresql`
 * `phpVersion`: `8.2` || `8.3` || `8.4` || `8.5`
 
 ## TYPO3 environment configuration
@@ -65,3 +65,15 @@ You may prefer to use a db client extension of your IDE or the preinstalled admi
 * Database: `db`
 * Username: `root`
 * Password: `dbroot`
+
+### `postgresql`
+
+You may prefer to use a db client extension of your IDE or the preinstalled adminer web UI that can be reached out with [this link](http://127.0.0.1:8080) after all containers started successfully.
+
+* Host
+  * VS Code: `127.0.0.1`
+  * Adminer: `postgres`
+* Port: `5432`
+* Database: `db`
+* Username: `db`
+* Password: `db`
