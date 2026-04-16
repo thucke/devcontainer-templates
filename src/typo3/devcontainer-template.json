@@ -31,7 +31,8 @@
             "proposals": [
                 "sqlite",
                 "mysql",
-                "mariadb"
+                "mariadb",
+                "postgresql"
             ],
             "default": "mysql"
         }
