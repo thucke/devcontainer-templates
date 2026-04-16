@@ -34,6 +34,7 @@
 		80,
 		2222,
 		3306,
+		5432,
 		8080
 	],
 	"portsAttributes": {
@@ -45,6 +46,9 @@
 		},
 		"3306": {
 			"label": "Mysql/MariaDB database"
+		},
+		"5432": {
+			"label": "PostgreSQL database"
 		},
 		"8080": {
 			"label": "Mysql/MariaDB Adminer"
