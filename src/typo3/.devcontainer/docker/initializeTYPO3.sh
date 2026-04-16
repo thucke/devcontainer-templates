@@ -38,9 +38,12 @@ else
     echo "initializeTYPO3.sh: additional.php already exists - skipping"
 fi
 
-# take care of file ownership esp. to support cross container functionality
-echo "initializeTYPO3: Update file and directory ownership"
-sudo chown -Rc ${DEVCONTAINER_SERVICE_NAME}:${DEVCONTAINER_SERVICE_NAME} config .build var
+if [ ! -f config/system/additional.php ]; then
+    echo "initializeTYPO3.sh: Add additional.php if not exists"
+    cp .devcontainer/docker/typo3/additional.php config/system/additional.php
+else
+    echo "initializeTYPO3.sh: additional.php already exists - skipping"
+fi
 
 # needed as directory check moans about wrong permissions
 echo "initializeTYPO3: Update file permissions"

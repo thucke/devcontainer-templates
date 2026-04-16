@@ -12,11 +12,14 @@ set -u
 dotEnvFile="${WORKSPACE_ROOT}/.devcontainer/docker/typo3/TYPO3.env"
 
 if [[ ${DB_SERVER_TYPE} =~ (mysql|mariadb) ]]; then
-  export TYPO3_INSTALL_DB_DRIVER="mysqli"
-  export TYPO3_INSTALL_DB_DBNAME="${MYSQLI_DBNAME}"
+  export TYPO3_INSTALL_DB_DRIVER=mysqli
+  export TYPO3_INSTALL_DB_DBNAME="${DB_SERVER_DBNAME}"
 elif [ "${DB_SERVER_TYPE}" == "sqlite" ]; then
-  export TYPO3_INSTALL_DB_DRIVER="sqlite"
+  export TYPO3_INSTALL_DB_DRIVER=sqlite
   export TYPO3_INSTALL_DB_DBNAME="${SQLITE_DBFILE_PATH}"
+elif [ "${DB_SERVER_TYPE}" == "postgres" ]; then
+  export TYPO3_INSTALL_DB_DRIVER=postgres
+  export TYPO3_INSTALL_DB_DBNAME="${DB_SERVER_DBNAME}"
 fi
 
 # parse .env file

@@ -95,7 +95,7 @@ services:
       TZ: "Europe/Berlin"
     networks:
       - devcontainer
-    profiles: [mysql, mariadb]
+    profiles: [mysql, mariadb, postgres]
     ports:
       - 8080:8080
     depends_on:
