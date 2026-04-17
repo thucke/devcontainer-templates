@@ -17,7 +17,7 @@ if [[ ${DB_SERVER_TYPE} =~ (mysql|mariadb) ]]; then
 elif [ "${DB_SERVER_TYPE}" == "sqlite" ]; then
   export TYPO3_INSTALL_DB_DRIVER=sqlite
   export TYPO3_INSTALL_DB_DBNAME="${SQLITE_DBFILE_PATH}"
-elif [ "${DB_SERVER_TYPE}" == "postgres" ]; then
+elif [ "${DB_SERVER_TYPE}" == "postgresql" ]; then
   export PGPASSWORD=${TYPO3_INSTALL_DB_PASSWORD}
   export TYPO3_INSTALL_DB_DRIVER=postgres
   export TYPO3_INSTALL_DB_DBNAME="${DB_SERVER_DBNAME}"
