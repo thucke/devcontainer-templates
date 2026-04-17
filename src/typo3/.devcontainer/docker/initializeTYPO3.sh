@@ -38,13 +38,6 @@ else
     echo "initializeTYPO3.sh: additional.php already exists - skipping"
 fi
 
-if [ ! -f config/system/additional.php ]; then
-    echo "initializeTYPO3.sh: Add additional.php if not exists"
-    cp .devcontainer/docker/typo3/additional.php config/system/additional.php
-else
-    echo "initializeTYPO3.sh: additional.php already exists - skipping"
-fi
-
 # needed as directory check moans about wrong permissions
 echo "initializeTYPO3: Update file permissions"
 sudo chmod -R 2770 .build config var

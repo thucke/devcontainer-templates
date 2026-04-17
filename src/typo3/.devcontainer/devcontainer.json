@@ -19,7 +19,7 @@
 		"TZ": "Europe/Berlin",
 		"WORKSPACE_ROOT": "${containerWorkspaceFolder}",
 		"TYPO3_INSTALL_WEB_SERVER_CONFIG": "other",
-		"COMPOSE_PROFILES": "${templateOption:webserver}, ${templateOption:database}",
+		"COMPOSE_PROFILES": "${templateOption:webserver}",
 		"COMPOSE_PROJECT_NAME": "typo3-devcontainer",
 		"DB_SERVER_TYPE": "${templateOption:database}",
 		"MYSQLI_DBNAME": "db",
