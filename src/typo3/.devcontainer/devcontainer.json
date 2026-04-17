@@ -22,7 +22,7 @@
 		"COMPOSE_PROFILES": "${templateOption:webserver}",
 		"COMPOSE_PROJECT_NAME": "typo3-devcontainer",
 		"DB_SERVER_TYPE": "${templateOption:database}",
-		"MYSQLI_DBNAME": "db",
+		"DB_SERVER_DBNAME": "db",
 		"SQLITE_DBFILE_PATH": "${containerWorkspaceFolder}/var/lib/sqlite/typo3.db",
 		"TYPO3_CONTEXT": "Development",
 		"TYPO3_INSTALL_DB_HOST": "127.0.0.1",
