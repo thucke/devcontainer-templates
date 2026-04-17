@@ -9,7 +9,7 @@ A template to support remote development with TYPO3.
 |-----|-----|-----|-----|
 | phpVersion | Select the PHP version to use in the development container. You may choose PHP version from 8.2 to 8.5. | string | 8.4 |
 | webserver | Which webserver do you prefer? Currently only FrankenPHP is supported, but more options will be added in the future. | string | frankenphp |
-| database | Choose the database type you'd like to use in your development environment. Offered entries are `sqlite`, `mysql`, `mariadb`, `postgresql`. | string | mysql |
+| database | Which database would you like to use in your development environment? | string | mysql |
 
 ### Disclaimer
 
