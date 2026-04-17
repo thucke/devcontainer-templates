@@ -19,7 +19,7 @@ if [ "${DB_SERVER_TYPE}" == "sqlite" ]; then
   rm -fv ${SQLITE_DBFILE_PATH}
   mkdir -vp $(dirname ${SQLITE_DBFILE_PATH})
 else
-  echo "igniteEnvironment.sh: No need to create SqLite datafile directory"
+  echo "igniteEnvironment.sh: Skipping creation of SqLite datafile directory"
 fi
 
 if [ "${TYPO3_INSTALL_DB_DRIVER}" == "mysqli" ]; then

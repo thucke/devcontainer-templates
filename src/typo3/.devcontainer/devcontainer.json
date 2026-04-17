@@ -23,10 +23,11 @@
 		"COMPOSE_PROJECT_NAME": "typo3-devcontainer",
 		"DB_SERVER_TYPE": "${templateOption:database}",
 		"DB_SERVER_DBNAME": "db",
+		"DB_SERVER_PORT_MYSQL_MARIADB": "3306",
+		"DB_SERVER_PORT_POSTGRESQL": "5432",
 		"SQLITE_DBFILE_PATH": "${containerWorkspaceFolder}/var/lib/sqlite/typo3.db",
 		"TYPO3_CONTEXT": "Development",
 		"TYPO3_INSTALL_DB_HOST": "127.0.0.1",
-		"TYPO3_INSTALL_DB_PORT": "3306",
 		"TYPO3_INSTALL_DB_USE_EXISTING": "true",
 		"TYPO3_CONFIG_SYS_TRUSTED_HOST_PATTERN": "localhost|127.0.0.1"
 	},
