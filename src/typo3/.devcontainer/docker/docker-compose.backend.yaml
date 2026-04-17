@@ -54,7 +54,7 @@ services:
       - path: ${WORKSPACE_ROOT}/.devcontainer/docker/db/mysql/.env
         required: "true"
     healthcheck:
-      test: ["CMD-SHELL", "mysql -uroot -p$${MYSQL_ROOT_PASSWORD} --execute \"SHOW DATABASES;\" || exit 1"]
+      test: mysql -h ${TYPO3_INSTALL_DB_HOST} --port=${DB_SERVER_PORT_MYSQL_MARIADB} -uroot -p${MYSQL_ROOT_PASSWORD} --execute="SHOW DATABASES;" || exit 1
       interval: 20s
       timeout: 5s
       retries: 5
@@ -82,7 +82,7 @@ services:
       - path: ${WORKSPACE_ROOT}/.devcontainer/docker/db/mariadb/.env
         required: "true"
     healthcheck:
-      test: ["CMD-SHELL", "mysql -uroot -p$${MYSQL_ROOT_PASSWORD} --execute \"SHOW DATABASES;\" || exit 1"]
+      test: mysql -h ${TYPO3_INSTALL_DB_HOST} --port=${DB_SERVER_PORT_MYSQL_MARIADB} -uroot -p${MYSQL_ROOT_PASSWORD} --execute="SHOW DATABASES;" || exit 1
       interval: 20s
       timeout: 5s
       retries: 5
@@ -107,7 +107,7 @@ services:
       - path: ${WORKSPACE_ROOT}/.devcontainer/docker/db/postgres/.env
         required: "true"
     healthcheck:
-      test: ["CMD-SHELL", "mysql -uroot -p$${MYSQL_ROOT_PASSWORD} --execute \"SHOW DATABASES;\" || exit 1"]
+      test: psql --dbname=${TYPO3_INSTALL_DB_DBNAME} -h ${TYPO3_INSTALL_DB_HOST} --port=${DB_SERVER_PORT_POSTGRESQL} -U ${TYPO3_INSTALL_DB_USER} --command '\dt' || exit 1
       interval: 20s
       timeout: 5s
       retries: 5
@@ -130,7 +130,9 @@ services:
       mariadb:
         condition: service_healthy
         required: false
-
+      postgres:
+        condition: service_healthy
+        required: false
 networks:
   devcontainer:
     # Specify driver options
