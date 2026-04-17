@@ -98,7 +98,7 @@ services:
         target: /docker-entrypoint-initdb.d
     networks:
       - devcontainer
-    profiles: [postgres]
+    profiles: [postgresql]
     ports:
       - 5432:5432
     env_file:
@@ -120,7 +120,7 @@ services:
       TZ: "Europe/Berlin"
     networks:
       - devcontainer
-    profiles: [mysql, mariadb, postgres]
+    profiles: [mysql, mariadb, postgresql]
     ports:
       - 8080:8080
     depends_on:
