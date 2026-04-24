@@ -1,6 +1,6 @@
 {
 	"name": "TYPO3 Dev Container",
-	"image": "ghcr.io/thucke/devcontainers/typo3-${templateOption:webserver}:1-php${templateOption:phpVersion}-trixie",
+	"image": "ghcr.io/thucke/devcontainers/typo3-${templateOption:webserver}:php${templateOption:phpVersion}-trixie",
 	"runArgs": [
 		"--env-file=.devcontainer/.env",
 		"--workdir=/workspaces/${localWorkspaceFolderBasename}"
