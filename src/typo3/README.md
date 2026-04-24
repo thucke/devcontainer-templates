@@ -7,13 +7,13 @@ A template to support remote development with TYPO3.
 
 | Options Id | Description | Type | Default Value |
 |-----|-----|-----|-----|
-| phpVersion | Select the PHP version to use in the development container. You may choose PHP version from `8.2` to `8.5`. | string | `8.4` |
-| webserver | Which webserver do you prefer? (`frankenphp`, `apache`)  | string | frankenphp |
-| database | Choose the database type you'd like to use in your development environment. Offered entries are `sqlite`, `mysql`, `mariadb`, `postgresql`. | string | `mysql` |
+| phpVersion | Select the PHP version to use in the development container. You may choose PHP version from 8.2 to 8.5. | string | 8.4 |
+| webserver | Which webserver do you prefer? | string | frankenphp |
+| database | Which database would you like to use in your development environment? | string | mysql |
 
 ### Disclaimer
 
-Development with TYPO3 is commonly done using [DDEV environment](https://docs.ddev.com/en/stable/users/quickstart/#typo3). Mainly designed for local use in Docker environment DDEV is being brought also to Codespaces and Kubenetes environments. Anyway DDEV is not outdated though Devcontainer technology seems to be more a standard technology the more tooling support is added.
+Development with TYPO3 is commonly done using [DDEV environment](https://docs.ddev.com/en/stable/users/quickstart/#typo3). Mainly designed for local use in Docker environment DDEV is being brought also to Codespaces and Kubenetes environments. Anyway DDEV is not outdated though Devcontainer technology seems to be more a standard technology the more tooling support is added. It could be easily used in either local or remote development environments (SAAS, on-prem, private cloud).
 
 ## Additional information
 
@@ -33,7 +33,25 @@ This Devcontainer template is based upon the following ruleset:
 * a database backend is started as a separate docker service based on the selected `TYPO3_INSTALL_DB_DRIVER` in the file `.devcontainer/.env` (no backend if `sqlite` is configured)
 * if a `composer.json` file is detected during initialization the PHP application will be automatically initialized
 
+![Architecture overview](doc/Devcontainer_FrankenPHP.drawio.png)
+
 ### Provided variances
+
+The default configuration consists of:
+
+* `webserver`: `frankenphp`
+* `database`: `mysql`
+* `phpVersion`: `8.4`
+
+#### Webserver
+
+You may choose between
+
+* FrankenPHP (Default - Value: "frankenphp")
+  
+  FrankenPHP currently *only* runs in classic mode comparable to Apache/mod_php or PHP-FPM. Unfortunately worker mode is not supported by TYPO3 at this point of time.
+
+* Apache (Value: "apache")
 
 #### Database
 
@@ -53,10 +71,6 @@ Currently only variances of FrankenPHP integrated webserver (Caddy) with the fol
 * 8.4 (Default)
 * 8.5
 
-FrankenPHP currently *only* runs in classic mode comparable to Apache/mod_php or PHP-FPM. Unfortunately worker mode is not supported by TYPO3 at this point of time.
-
-![Architecture overview](doc/Devcontainer_FrankenPHP.drawio.png)
-
 ### Requirements
 
 Some requirements regarding the composer configuration are automatically set during initialization before performing install. They MUST NOT be modified afterwards unless you don't want to make use of this devcontainer template anymore.
@@ -67,6 +81,8 @@ Some requirements regarding the composer configuration are automatically set dur
     composer config vendor-dir .build/vendor
     composer config extra.typo3/cms.web-dir .build/public
     composer config extra.helhum/dotenv-connector.env-file TYPO3.env
+
+Additionally the directory `var` is used for several purposes incl. apache logfiles hosted in `var/log/apache2`.
 
 ## Useful hints
 
@@ -89,9 +105,15 @@ Some requirements regarding the composer configuration are automatically set dur
 
 * Update devcontainer template
 
-If you want to update the devcontainer configuration e.g. after a new template version has been published you can make use of the [Dev Container CLI](https://github.com/devcontainers/cli) with the following command:
+  If you want to update the devcontainer configuration e.g. after a new template version has been published you can make use of the [Dev Container CLI](https://github.com/devcontainers/cli) with the following command:
 
-    devcontainer templates apply --template-id ghcr.io/thucke/devcontainer-templates/typo3  --template-args "{\"database\": \"mysql\"}" -w ${WORKSPACE_ROOT}. 
+      devcontainer templates apply --template-id ghcr.io/thucke/devcontainer-templates/typo3  --template-args "{\"database\": \"mysql\", \"phpVersion\": \"8.4\", \"webserver\": \"frankenphp\"}" -w .
+
+  Valid values:
+
+  * `database`: `mysql` || `mariadb` ||`sqlite` || `postgresql`
+  * `phpVersion`: `8.2` || `8.3` || `8.4` || `8.5`
+  * `webserver`: `frankenphp` || `apache`
 
 * TYPO3 environment configuration
 
