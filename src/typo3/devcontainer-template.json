@@ -1,6 +1,6 @@
 {
     "id": "typo3",
-    "version": "0.6.0",
+    "version": "0.6.1",
     "name": "Typo3",
     "description": "A template to support remote development with TYPO3.",
     "documentationURL": "https://github.com/thucke/devcontainer-templates/tree/main/src/typo3",
@@ -19,9 +19,10 @@
         },
         "webserver": {
             "type": "string",
-            "description": "Which webserver do you prefer? Currently only FrankenPHP is supported, but more options will be added in the future.",
+            "description": "Which webserver do you prefer?",
             "enum": [
-                "frankenphp"
+                "frankenphp",
+                "apache"
             ],
             "default": "frankenphp"
         },

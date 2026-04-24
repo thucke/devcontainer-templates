@@ -22,6 +22,6 @@ fi
 
 # ignite TYPO3 environment for the first time
 echo "postCreateCommandScript: Ignite TYPO3 environment for the first time"
-${WORKSPACE_ROOT}/.devcontainer/docker/igniteEnvironment.sh
+${WORKSPACE_ROOT}/.devcontainer/docker/igniteEnvironment.sh postCreateCommand
 
 echo "END: postCreateCommandScript.sh"

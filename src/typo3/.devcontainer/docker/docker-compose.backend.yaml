@@ -54,8 +54,8 @@ services:
       - path: ${WORKSPACE_ROOT}/.devcontainer/docker/db/mysql/.env
         required: "true"
     healthcheck:
-      test: mysql -h ${TYPO3_INSTALL_DB_HOST} --port=${DB_SERVER_PORT_MYSQL_MARIADB} -uroot -p${MYSQL_ROOT_PASSWORD} --execute="SHOW DATABASES;" || exit 1
-      interval: 20s
+      test: mysql -h${TYPO3_INSTALL_DB_HOST} --port=${DB_SERVER_PORT} -uroot -p$${MYSQL_ROOT_PASSWORD} --execute="SHOW DATABASES;" || exit 1
+      interval: 30s
       timeout: 5s
       retries: 5
       start_period: 15s
@@ -82,8 +82,8 @@ services:
       - path: ${WORKSPACE_ROOT}/.devcontainer/docker/db/mariadb/.env
         required: "true"
     healthcheck:
-      test: mysql -h ${TYPO3_INSTALL_DB_HOST} --port=${DB_SERVER_PORT_MYSQL_MARIADB} -uroot -p${MYSQL_ROOT_PASSWORD} --execute="SHOW DATABASES;" || exit 1
-      interval: 20s
+      test: mysql -h${TYPO3_INSTALL_DB_HOST} --port=${DB_SERVER_PORT} -uroot -p$${MARIADB_ROOT_PASSWORD} --execute="SHOW DATABASES;" || exit 1
+      interval: 30s
       timeout: 5s
       retries: 5
       start_period: 15s
@@ -107,11 +107,11 @@ services:
       - path: ${WORKSPACE_ROOT}/.devcontainer/docker/db/postgres/.env
         required: "true"
     healthcheck:
-      test: psql --dbname=${TYPO3_INSTALL_DB_DBNAME} -h ${TYPO3_INSTALL_DB_HOST} --port=${DB_SERVER_PORT_POSTGRESQL} -U ${TYPO3_INSTALL_DB_USER} --command '\dt' || exit 1
-      interval: 20s
+      test: psql --dbname=$${POSTGRES_DB} -h ${TYPO3_INSTALL_DB_HOST} --port=${DB_SERVER_PORT} -U $${POSTGRES_USER} --command '\dt' || exit 1
+      interval: 30s
       timeout: 5s
       retries: 5
-      start_period: 15s
+      start_period: 5s
       start_interval: 10s
   adminer:
     image: adminer:latest
