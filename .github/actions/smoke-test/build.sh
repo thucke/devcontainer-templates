@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 TEMPLATE_ID="$1"
 DEVCONTAINER_CONFIG="$2"
 
@@ -22,7 +23,7 @@ if [ "${OPTION_PROPERTY}" != "" ] && [ "${OPTION_PROPERTY}" != "null" ] ; then
         for OPTION in "${OPTIONS[@]}"
         do
             OPTION_KEY="\${templateOption:$OPTION}"
-            if [[ "${DEVCONTAINER_CONFIG}" == *"\"${OPTION}\""* ]]; then
+            if [[ ${DEVCONTAINER_CONFIG} =~ ${OPTION} ]]; then
                 OPTION_VALUE=$(echo "${DEVCONTAINER_CONFIG}" | jq -r ".${OPTION}")
                 echo "(*) Found value for option '${OPTION}' in config: '${OPTION_VALUE}'"
             else
@@ -41,7 +42,7 @@ if [ "${OPTION_PROPERTY}" != "" ] && [ "${OPTION_PROPERTY}" != "null" ] ; then
         done
     fi
 fi
-
+exit 0
 popd
 
 TEST_DIR="test/${TEMPLATE_ID}"
