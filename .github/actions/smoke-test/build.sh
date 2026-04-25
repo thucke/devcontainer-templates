@@ -1,7 +1,7 @@
 #!/bin/bash
 set -x
 TEMPLATE_ID="$1"
-DEVCONTAINER_CONFIG="$2"
+DEVCONTAINER_CONFIG=$(echo "$2" | base64 -d)
 
 set -e
 
