@@ -24,19 +24,19 @@ jobs:
         templates: ${{ fromJSON(needs.detect-changes.outputs.templates) }}
         include:
           - templates: typo3
-            php_version: 8.5
+            php_version: "8.5"
             database: mysql
             webserver: apache
           - templates: typo3
-            php_version: 8.4
+            php_version: "8.4"
             database: mariadb
             webserver: frankenphp
           - templates: typo3
-            php_version: 8.3
+            php_version: "8.3"
             database: postgresql
             webserver: apache
           - templates: typo3
-            php_version: 8.2
+            php_version: "8.2"
             database: sqlite
             webserver: frankenphp
     steps:
