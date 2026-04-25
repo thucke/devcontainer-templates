@@ -22,7 +22,13 @@ if [ "${OPTION_PROPERTY}" != "" ] && [ "${OPTION_PROPERTY}" != "null" ] ; then
         for OPTION in "${OPTIONS[@]}"
         do
             OPTION_KEY="\${templateOption:$OPTION}"
-            OPTION_VALUE=$(jq -r ".options | .${OPTION} | .default" devcontainer-template.json)
+            if [[ "${DEVCONTAINER_CONFIG}" == *"\"${OPTION}\""* ]]; then
+                OPTION_VALUE=$(echo "${DEVCONTAINER_CONFIG}" | jq -r ".${OPTION}")
+                echo "(*) Found value for option '${OPTION}' in config: '${OPTION_VALUE}'"
+            else
+                 echo "(*) No value for option '${OPTION}' found in config - using default value"
+                 OPTION_VALUE=$(jq -r ".options | .${OPTION} | .default" devcontainer-template.json)
+            fi
 
             if [ "${OPTION_VALUE}" = "" ] || [ "${OPTION_VALUE}" = "null" ] ; then
                 echo "Template '${TEMPLATE_ID}' is missing a default value for option '${OPTION}'"
@@ -53,4 +59,4 @@ npm install -g @devcontainers/cli
 
 echo "Building Dev Container"
 ID_LABEL="test-container=${TEMPLATE_ID}"
-devcontainer up --id-label ${ID_LABEL} --template-args '${DEVCONTAINER_CONFIG}' --workspace-folder "${SRC_DIR}"
+devcontainer up --id-label ${ID_LABEL} --workspace-folder "${SRC_DIR}"
