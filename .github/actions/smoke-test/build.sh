@@ -1,5 +1,6 @@
 #!/bin/bash
 TEMPLATE_ID="$1"
+DEVCONTAINER_CONFIG="$2"
 
 set -e
 
@@ -52,4 +53,4 @@ npm install -g @devcontainers/cli
 
 echo "Building Dev Container"
 ID_LABEL="test-container=${TEMPLATE_ID}"
-devcontainer up --id-label ${ID_LABEL} --workspace-folder "${SRC_DIR}"
+devcontainer up --id-label ${ID_LABEL} --template-args "${DEVCONTAINER_CONFIG}" --workspace-folder "${SRC_DIR}"

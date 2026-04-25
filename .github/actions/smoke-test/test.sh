@@ -1,5 +1,6 @@
 #!/bin/bash
 TEMPLATE_ID="$1"
+DEVCONTAINER_CONFIG="$2"
 set -e
 
 SRC_DIR="/tmp/${TEMPLATE_ID}"

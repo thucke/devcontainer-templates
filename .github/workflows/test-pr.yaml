@@ -21,11 +21,33 @@ jobs:
     strategy:
       matrix:
         templates: ${{ fromJSON(needs.detect-changes.outputs.templates) }}
+        include:
+          - templates: typo3
+            php_version: 8.5
+            database: mysql
+            webserver: apache
+          - templates: typo3
+            php_version: 8.4
+            database: mariadb
+            webserver: frankenphp
+          - templates: typo3
+            php_version: 8.3
+            database: postgresql
+            webserver: apache
+          - templates: typo3
+            php_version: 8.2
+            database: sqlite
+            webserver: frankenphp
     steps:
       - uses: actions/checkout@v3
 
+      - name: Set up devcontainer config
+        id: set_devcontainer_config
+        run: |
+          echo "DEVCONTAINER_CONFIG={\"php_version\": \"${{ matrix.php_version }}\", \"database\": \"${{ matrix.database }}\", \"webserver\": \"${{ matrix.webserver }}\"}" >> $GITHUB_OUTPUT
       - name: Smoke test for '${{ matrix.templates }}'
         id: smoke_test
         uses: ./.github/actions/smoke-test
         with:
           template: "${{ matrix.templates }}"
+          config: "${{ steps.set_devcontainer_config.outputs.DEVCONTAINER_CONFIG }}"
