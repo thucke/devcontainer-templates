@@ -52,4 +52,4 @@ jobs:
         with:
           template: "${{ matrix.templates }}"
           #config: "'${{ steps.set_devcontainer_config.outputs.DEVCONTAINER_CONFIG }}'"
-          config: "${{ matrix | toJson }}"
+          config: JSON.stringify(${{ matrix }})
