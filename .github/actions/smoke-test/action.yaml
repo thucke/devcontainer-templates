@@ -7,6 +7,7 @@ inputs:
   config:
     description: 'Additional configuration for the test (JSON object)'
     required: false
+    default: '{}'
 
 runs:
   using: composite
@@ -18,9 +19,9 @@ runs:
     - name: Build template
       id: build_template
       shell: bash
-      run: ${{ github.action_path }}/build.sh ${{ inputs.template }} `echo -n "${{ inputs.config }}" | base64`
+      run: ${{ github.action_path }}/build.sh ${{ inputs.template }} `echo -n "${{ toJSON(inputs.config) }}" | base64`
 
     - name: Test template
       id: test_template
       shell: bash
-      run: ${{ github.action_path }}/test.sh  ${{ inputs.template }} `echo -n "${{ inputs.config }}" | base64`
+      run: ${{ github.action_path }}/test.sh  ${{ inputs.template }} `echo -n "${{ toJSON(inputs.config) }}" | base64`
