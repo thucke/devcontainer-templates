@@ -45,7 +45,7 @@ jobs:
       - name: Set up devcontainer config
         id: set_devcontainer_config
         run: |
-          echo "DEVCONTAINER_CONFIG={\"php_version\": \"${{ matrix.php_version }}\", \"database\": \"${{ matrix.database }}\", \"webserver\": \"${{ matrix.webserver }}\"}" >> $GITHUB_OUTPUT
+          echo "DEVCONTAINER_CONFIG={\"phpVersion\": \"${{ matrix.php_version }}\", \"database\": \"${{ matrix.database }}\", \"webserver\": \"${{ matrix.webserver }}\"}" >> $GITHUB_OUTPUT
       - name: Smoke test for '${{ matrix.templates }}'
         id: smoke_test
         uses: ./.github/actions/smoke-test
