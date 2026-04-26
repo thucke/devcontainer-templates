@@ -39,6 +39,7 @@ jobs:
             phpVersion: "8.2"
             database: sqlite
             webserver: frankenphp
+    if: ${{ fromJSON(needs.detect-changes.outputs.templates) =~ matrix.templates }}
     steps:
       - uses: actions/checkout@v3
 
