@@ -42,7 +42,7 @@ if [ "${OPTION_PROPERTY}" != "" ] && [ "${OPTION_PROPERTY}" != "null" ] ; then
         done
     fi
 fi
-exit 0
+
 popd
 
 TEST_DIR="test/${TEMPLATE_ID}"
