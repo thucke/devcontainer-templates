@@ -21,7 +21,7 @@ jobs:
     continue-on-error: true
     strategy:
       matrix:
-        templates: ${{ fromJSON(needs.detect-changes.outputs.templates) }}
+        #templates: ${{ fromJSON(needs.detect-changes.outputs.templates) }}
         include:
           - templates: typo3
             phpVersion: "8.5"
