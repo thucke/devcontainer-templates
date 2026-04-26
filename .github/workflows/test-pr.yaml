@@ -39,7 +39,7 @@ jobs:
             phpVersion: "8.2"
             database: sqlite
             webserver: frankenphp
-    if: ${{ contains( fromJSON(needs.detect-changes.outputs.templates), matrix.templates) }}
+    if: ${{ contains( fromJSON(needs.detect-changes.outputs.templates), 'typo3') }}
     #if: true
     steps:
       - uses: actions/checkout@v3
