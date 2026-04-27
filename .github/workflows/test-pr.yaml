@@ -39,17 +39,17 @@ jobs:
             phpVersion: "8.2"
             database: sqlite
             webserver: frankenphp
-    if: ${{ needs.detect-changes.outputs.typo3 == 'true' }}
-    #if: true
+    if: ${{ contains(needs.detect-changes.outputs.templates, matrix.templates) }}
     steps:
       - uses: actions/checkout@v3
-      - name: Output changes
+      - name: Check changes in ${{ matrix.templates }}
+        if: ${{ ! contains(needs.detect-changes.outputs.templates, matrix.templates) }}
         run: |
           echo "Changed templates: ${{ needs.detect-changes.outputs.changes }}"
           echo "Changed TYPO3?: ${{ needs.detect-changes.outputs.typo3 }}"
           echo "Dorny output object: ${{ toJSON(needs.detect-changes.outputs) }}"
           echo "Check if matrix template has changed: ${{ contains(needs.detect-changes.outputs.templates, matrix.templates) }}"
-
+          echo "::error ::No changes detected in ${{ matrix.templates }}. Skipping tests."
       - name: Set up devcontainer config
         id: set_devcontainer_config
         run: |
