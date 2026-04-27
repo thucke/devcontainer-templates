@@ -23,13 +23,15 @@ jobs:
     strategy:
       matrix:
         templates: ${{ fromJSON(needs.detect-changes.outputs.templates) }}
+    env:
+      TEMPLATE_MATRIX_FILE: ${{ github.workspace }}/src/${{ matrix.templates }}/.github/workflow-matrix.yaml
     steps:
       - uses: actions/checkout@v3
       - name: Check file existence
         id: file_check
         run: |
           ls -al .
-          if [ -f "./src/${{ matrix.templates }}/.github/workflow-matrix.yaml" ]; then
+          if [ -f "${{ env.TEMPLATE_MATRIX_FILE }}" ]; then
             echo "check_result=true" >> $GITHUB_OUTPUT
           else
             echo "check_result=false" >> $GITHUB_OUTPUT
@@ -38,7 +40,7 @@ jobs:
         id: set-matrix
         run: |
           if [ "${{ steps.file_check.outputs.check_result }}" = "true" ]; then
-            echo "MATRIX=$(yq -o=json workflow-matrix.yaml | jq -r '.[] | . += {"template" : ${{needs.detect-changes.outputs.templates}} }')" >> $GITHUB_OUTPUT
+            echo "MATRIX=$(yq -o=json ${{ env.TEMPLATE_MATRIX_FILE }} | jq -r '.[] | . += {"template" : ${{needs.detect-changes.outputs.templates}} }')" >> $GITHUB_OUTPUT
           else
             echo "MATRIX=${{ matrix.templates }}" >> $GITHUB_OUTPUT
           fi
