@@ -15,6 +15,15 @@ jobs:
           filters: |
             typo3: ./**/typo3/**
 
+  info:
+    needs: [detect-changes]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output changes
+        run: |
+          echo "Changed templates: ${{ needs.detect-changes.outputs.changes }}"
+          echo "Changed TYPO3?: ${{ needs.detect-changes.outputs.typo3 }}"
+          echo "Dorny output object: ${{ toJSON(needs.detect-changes.outputs) }}"
   test:
     needs: [detect-changes]
     runs-on: ubuntu-latest
