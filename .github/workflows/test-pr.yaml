@@ -40,7 +40,7 @@ jobs:
         id: set-matrix
         run: |
           if [ "${{ steps.file_check.outputs.check_result }}" = "true" ]; then
-            mtmp=$(yq -o=json ${{ env.TEMPLATE_MATRIX_FILE }} | jq -c '.[] += {"template" : "${{matrix.templates}}" }')
+            mtmp=$(yq -o=json ${{ env.TEMPLATE_MATRIX_FILE }} | jq -c '.config[] += {"template" : "${{matrix.templates}}" }')
             echo "MATRIX=$mtmp" | tee -a >> $GITHUB_OUTPUT
           else
             echo "MATRIX=${{ matrix.templates }}" >> $GITHUB_OUTPUT
@@ -57,9 +57,9 @@ jobs:
       - name: Set up devcontainer config
         id: set_devcontainer_config
         run: |
-          echo "matrix: ${{ matrix }}"
-          echo "fromJSON: ${{ fromJSON(matrix) }}"
-          echo "DEVCONTAINER_CONFIG={\"phpVersion\": \"${{ matrix.phpVersion }}\", \"database\": \"${{ matrix.database }}\", \"webserver\": \"${{ matrix.webserver }}\"}" >> $GITHUB_OUTPUT
+          echo "matrix: ${{ matrix.config }}"
+          echo "fromJSON: ${{ fromJSON(matrix.config) }}"
+          echo "DEVCONTAINER_CONFIG={\"phpVersion\": \"${{ matrix.config.phpVersion }}\", \"database\": \"${{ matrix.config.database }}\", \"webserver\": \"${{ matrix.config.webserver }}\"}" >> $GITHUB_OUTPUT
       - name: Smoke test for '${{ matrix.templates }}'
         id: smoke_test
         uses: ./.github/actions/smoke-test
