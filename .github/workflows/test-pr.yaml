@@ -42,7 +42,7 @@ jobs:
           if [ "${{ steps.file_check.outputs.check_result }}" = "true" ]; then
             export mtmp=$(yq -o=json ${{ env.TEMPLATE_MATRIX_FILE }} | jq -a '.[] += {"template" : "${{matrix.templates}}" }')
             echo ${mtmp}
-            echo "MATRIX=$mtmp" >> $GITHUB_OUTPUT
+            echo "MATRIX=\'$mtmp\'" >> $GITHUB_OUTPUT
           else
             echo "MATRIX=${{ matrix.templates }}" >> $GITHUB_OUTPUT
           fi
