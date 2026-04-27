@@ -25,6 +25,7 @@ jobs:
           echo "Changed templates: ${{ needs.detect-changes.outputs.changes }}"
           echo "Changed TYPO3?: ${{ needs.detect-changes.outputs.typo3 }}"
           echo "Dorny output object: ${{ toJSON(needs.detect-changes.outputs) }}"
+          echo "Check if typo3 template has changed: ${{ contains(needs.detect-changes.outputs.templates, 'typo3') }}"
   test:
     needs: [detect-changes]
     runs-on: ubuntu-latest
