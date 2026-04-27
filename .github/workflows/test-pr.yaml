@@ -52,41 +52,12 @@ jobs:
     strategy:
       matrix:
         config: ${{ fromJSON(needs.discover-variances.outputs.MATRIX) }}
-        #templates: ${{ fromJSON(needs.detect-changes.outputs.templates) }}
-        #include:
-        #  - templates: typo3
-        #    phpVersion: "8.5"
-        #    database: mysql
-        #    webserver: apache
-        #  - templates: typo3
-        #    phpVersion: "8.4"
-        #    database: mariadb
-        #    webserver: frankenphp
-        #  - templates: typo3
-        #    phpVersion: "8.3"
-        #    database: postgresql
-        #    webserver: apache
-        #  - templates: typo3
-        #    phpVersion: "8.2"
-       #     database: sqlite
-       #     webserver: frankenphp
-      #jq -r '.[] | . += {"template" : "typo3" }' fruits.json
     steps:
       - uses: actions/checkout@v3
-      - name: Check changes in ${{ matrix.templates }}
-        if: ${{ ! contains(needs.detect-changes.outputs.templates, matrix.templates) }}
-        run: |
-          echo "::error ::No changes detected in ${{ matrix.templates }}. Skipping tests for this template."
-      - name: Set up devcontainer config
-        if: success()
-        id: set_devcontainer_config
-        run: |
-          echo "DEVCONTAINER_CONFIG={\"phpVersion\": \"${{ matrix.phpVersion }}\", \"database\": \"${{ matrix.database }}\", \"webserver\": \"${{ matrix.webserver }}\"}" >> $GITHUB_OUTPUT
       - name: Smoke test for '${{ matrix.templates }}'
-        if: success()
         id: smoke_test
         uses: ./.github/actions/smoke-test
         with:
           template: "${{ matrix.templates }}"
-          config: "'${{ steps.set_devcontainer_config.outputs.DEVCONTAINER_CONFIG }}'"
-          #config: ${{ fromJSON( matrix ) }}
+          #config: "'${{ steps.set_devcontainer_config.outputs.DEVCONTAINER_CONFIG }}'"
+          config: ${{ fromJSON( matrix.config ) }}
