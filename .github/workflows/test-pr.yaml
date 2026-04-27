@@ -32,7 +32,6 @@ jobs:
       - name: Check file existence
         id: file_check
         run: |
-          ls -al .
           if [ -f "${{ env.TEMPLATE_MATRIX_FILE }}" ]; then
             echo "check_result=true" >> $GITHUB_OUTPUT
           else
@@ -42,8 +41,7 @@ jobs:
         id: set-matrix
         run: |
           if [ "${{ steps.file_check.outputs.check_result }}" = "true" ]; then
-            MATRIX=$(yq -o=json ${{ env.TEMPLATE_MATRIX_FILE }} | jq -r '.[] | . += {"template" : ${{needs.detect-changes.outputs.templates}} }')
-            echo "MATRIX=$MATRIX" >> $GITHUB_OUTPUT
+            echo "MATRIX=$(yq -o=json ${{ env.TEMPLATE_MATRIX_FILE }} | jq -r '.[] | . += {"template" : ${{matrix.templates}} }')" >> $GITHUB_OUTPUT
           else
             echo "MATRIX=${{ matrix.templates }}" >> $GITHUB_OUTPUT
           fi
