@@ -1,0 +1,16 @@
+- templates: typo3
+  phpVersion: "8.5"
+  database: mysql
+  webserver: apache
+- templates: typo3
+  phpVersion: "8.4"
+  database: mariadb
+  webserver: frankenphp
+- templates: typo3
+  phpVersion: "8.3"
+  database: postgresql
+  webserver: apache
+- templates: typo3
+  phpVersion: "8.2"
+  database: sqlite
+  webserver: frankenphp

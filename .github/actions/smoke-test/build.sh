@@ -8,20 +8,25 @@ set -e
 shopt -s dotglob
 
 SRC_DIR="/tmp/${TEMPLATE_ID}"
+if [ ! -d "src/${TEMPLATE_ID}" ] ; then
+    echo "Template directory 'src/${TEMPLATE_ID}' does not exist."
+    exit 1
+fi
 cp -R "src/${TEMPLATE_ID}" "${SRC_DIR}"
 
 pushd "${SRC_DIR}"
 
-# Configure templates only if `devcontainer-template.json` contains the `options` property.
-OPTION_PROPERTY=( $(jq -r '.options' devcontainer-template.json) )
+# Configure templates only when devcontainer-template.json exists and contains the `options` property.
+if [ -f devcontainer-template.json ] ; then
+    OPTION_PROPERTY=( $(jq -r '.options' devcontainer-template.json) )
 
-if [ "${OPTION_PROPERTY}" != "" ] && [ "${OPTION_PROPERTY}" != "null" ] ; then  
-    OPTIONS=( $(jq -r '.options | keys[]' devcontainer-template.json) )
+    if [ "${OPTION_PROPERTY}" != "" ] && [ "${OPTION_PROPERTY}" != "null" ] ; then  
+        OPTIONS=( $(jq -r '.options | keys[]' devcontainer-template.json) )
 
-    if [ "${OPTIONS[0]}" != "" ] && [ "${OPTIONS[0]}" != "null" ] ; then
-        echo "(!) Configuring template options for '${TEMPLATE_ID}'"
-        for OPTION in "${OPTIONS[@]}"
-        do
+        if [ "${OPTIONS[0]}" != "" ] && [ "${OPTIONS[0]}" != "null" ] ; then
+            echo "(!) Configuring template options for '${TEMPLATE_ID}'"
+            for OPTION in "${OPTIONS[@]}"
+            do
             OPTION_KEY="\${templateOption:$OPTION}"
             if [[ ${DEVCONTAINER_CONFIG} =~ ${OPTION} ]]; then
                 OPTION_VALUE=$(echo "${DEVCONTAINER_CONFIG}" | jq -r ".${OPTION}")
@@ -39,7 +44,8 @@ if [ "${OPTION_PROPERTY}" != "" ] && [ "${OPTION_PROPERTY}" != "null" ] ; then
             echo "(!) Replacing '${OPTION_KEY}' with '${OPTION_VALUE}'"
             OPTION_VALUE_ESCAPED=$(sed -e 's/[]\/$*.^[]/\\&/g' <<<"${OPTION_VALUE}")
             find ./ -type f -print0 | xargs -0 sed -i "s/${OPTION_KEY}/${OPTION_VALUE_ESCAPED}/g"
-        done
+            done
+        fi
     fi
 fi
 

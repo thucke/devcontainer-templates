@@ -15,12 +15,37 @@ jobs:
         with:
           filters: |
             typo3: ./**/typo3/**
-  test:
+
+  discover-variances:
+    name: "Discover variances for testing of this template"
     needs: [detect-changes]
     runs-on: ubuntu-latest
-    continue-on-error: true
     strategy:
       matrix:
+        templates: ${{ fromJSON(needs.detect-changes.outputs.templates) }}
+    steps:
+      - name: Check file existence
+        id: file_check
+        run: |
+          if [ -f "./src/${{ matrix.templates }}/.github/workflow-matrix.yaml" ]; then
+            echo "check_result=true" >> $GITHUB_OUTPUT
+          else
+            echo "check_result=false" >> $GITHUB_OUTPUT
+          fi          
+      - name: Enhance matrix for testing ${{ matrix.templates }}
+        id: set-matrix
+        run: |
+          if [ "${{ steps.file_check.outputs.check_result }}" = "true" ]; then
+            echo "MATRIX=$(yq -o=json workflow-matrix.yaml | jq -r '.[] | . += {"template" : ${{needs.detect-changes.outputs.templates}} }')" >> $GITHUB_OUTPUT
+          else
+            echo "MATRIX=${{ needs.detect-changes.outputs.templates }}" >> $GITHUB_OUTPUT
+  test:
+    needs: [discover-variances]
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    strategy:
+      matrix:
+        config: ${{ fromJSON(needs.discover-variances.outputs.MATRIX) }}
         #templates: ${{ fromJSON(needs.detect-changes.outputs.templates) }}
         include:
           - templates: typo3
@@ -39,17 +64,20 @@ jobs:
             phpVersion: "8.2"
             database: sqlite
             webserver: frankenphp
+      #jq -r '.[] | . += {"template" : "typo3" }' fruits.json
     steps:
       - uses: actions/checkout@v3
       - name: Check changes in ${{ matrix.templates }}
-        if: ${{ contains(needs.detect-changes.outputs.templates, matrix.templates) }}
+        if: ${{ ! contains(needs.detect-changes.outputs.templates, matrix.templates) }}
         run: |
-          echo "::error ::No changes detected in ${{ matrix.templates }}. Skipping tests."
+          echo "::error ::No changes detected in ${{ matrix.templates }}. Skipping tests for this template."
       - name: Set up devcontainer config
+        if: success()
         id: set_devcontainer_config
         run: |
           echo "DEVCONTAINER_CONFIG={\"phpVersion\": \"${{ matrix.phpVersion }}\", \"database\": \"${{ matrix.database }}\", \"webserver\": \"${{ matrix.webserver }}\"}" >> $GITHUB_OUTPUT
       - name: Smoke test for '${{ matrix.templates }}'
+        if: success()
         id: smoke_test
         uses: ./.github/actions/smoke-test
         with:
