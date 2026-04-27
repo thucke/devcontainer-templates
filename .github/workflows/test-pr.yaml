@@ -20,6 +20,8 @@ jobs:
     name: "Discover variances for testing of this template"
     needs: [detect-changes]
     runs-on: ubuntu-latest
+    outputs:
+      MATRIX: ${{ steps.set-matrix.outputs.MATRIX }}
     strategy:
       matrix:
         templates: ${{ fromJSON(needs.detect-changes.outputs.templates) }}
