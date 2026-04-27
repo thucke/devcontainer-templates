@@ -57,8 +57,7 @@ jobs:
       - name: Set up devcontainer config
         id: set_devcontainer_config
         run: |
-          #echo "fromJSON: ${{ fromJSON(matrix.config) }}"
-          #echo "matrix: ${{ matrix.config }}"
+          echo "matrix: ${{ matrix.config }}"
           echo "DEVCONTAINER_CONFIG={\"phpVersion\": \"${{ matrix.config.phpVersion }}\", \"database\": \"${{ matrix.config.database }}\", \"webserver\": \"${{ matrix.config.webserver }}\"}" >> $GITHUB_OUTPUT
       - name: Smoke test for '${{ matrix.config.templates }}'
         id: smoke_test
