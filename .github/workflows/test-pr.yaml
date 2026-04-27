@@ -58,6 +58,6 @@ jobs:
         id: smoke_test
         uses: ./.github/actions/smoke-test
         with:
-          template: "${{ matrix.templates }}"
+          template: "${{ matrix.config.templates }}"
           #config: "'${{ steps.set_devcontainer_config.outputs.DEVCONTAINER_CONFIG }}'"
-          config: ${{ fromJSON( matrix.config ) }}
+          config: ${{ matrix.config }}
