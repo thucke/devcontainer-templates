@@ -40,7 +40,8 @@ jobs:
         id: set-matrix
         run: |
           if [ "${{ steps.file_check.outputs.check_result }}" = "true" ]; then
-            echo "MATRIX=$(yq -o=json ${{ env.TEMPLATE_MATRIX_FILE }} | jq -r '.[] | . += {"template" : \"${{matrix.templates}}\" }')" >> $GITHUB_OUTPUT
+            MATRIX=$(yq -o=json ${{ env.TEMPLATE_MATRIX_FILE }} | jq -r '.[] | . += {"template" : "${{matrix.templates}}" }')
+            echo "MATRIX=$MATRIX" >> $GITHUB_OUTPUT
           else
             echo "MATRIX=${{ matrix.templates }}" >> $GITHUB_OUTPUT
           fi
