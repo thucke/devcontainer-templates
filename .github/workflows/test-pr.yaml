@@ -20,7 +20,7 @@ jobs:
     needs: [detect-changes]
     runs-on: ubuntu-latest
     outputs:
-      MATRIX: ${{ steps.set-matrix.outputs.MATRIX }}
+      template-matrix: ${{ steps.set-matrix.outputs.MATRIX }}
     strategy:
       matrix:
         templates: ${{ fromJSON(needs.detect-changes.outputs.templates) }}
@@ -50,20 +50,19 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: false
     strategy:
-      matrix:
-        config: ${{ fromJSON(needs.discover-variances.outputs.MATRIX) }}
+      matrix: ${{ fromJSON(needs.discover-variances.outputs.template-matrix) }}
     steps:
       - uses: actions/checkout@v3
 
       - name: Set up devcontainer config
         id: set_devcontainer_config
         run: |
-          echo "matrix.config:${{ matrix.config }}"
-          echo "fromJSON: ${{ fromJSON(matrix.config) }}"
-          echo "DEVCONTAINER_CONFIG={\"phpVersion\": \"${{ matrix.config.phpVersion }}\", \"database\": \"${{ matrix.config.database }}\", \"webserver\": \"${{ matrix.config.webserver }}\"}" >> $GITHUB_OUTPUT
-      - name: Smoke test for '${{ matrix.config.templates }}'
+          echo "matrix: ${{ matrix }}"
+          echo "fromJSON: ${{ fromJSON(matrix) }}"
+          echo "DEVCONTAINER_CONFIG={\"phpVersion\": \"${{ matrix.phpVersion }}\", \"database\": \"${{ matrix.database }}\", \"webserver\": \"${{ matrix.webserver }}\"}" >> $GITHUB_OUTPUT
+      - name: Smoke test for '${{ matrix.templates }}'
         id: smoke_test
         uses: ./.github/actions/smoke-test
         with:
-          template: "${{ matrix.config.templates }}"
-          config: "${{ matrix.config }}"
+          template: "${{ matrix.templates }}"
+          config: "${{ matrix }}"
