@@ -40,9 +40,8 @@ jobs:
         id: set-matrix
         run: |
           if [ "${{ steps.file_check.outputs.check_result }}" = "true" ]; then
-            echo "MATRIX=$(yq -o=json ${{ env.TEMPLATE_MATRIX_FILE }} | jq -c '.[] += {"template" : "${{matrix.templates}}" }')" | tee -a >> $GITHUB_OUTPUT"
-            #echo ${mtmp}
-            #echo "MATRIX=$mtmp" | tee -a >> $GITHUB_OUTPUT
+            mtmp=$(yq -o=json ${{ env.TEMPLATE_MATRIX_FILE }} | jq -c '.[] += {"template" : "${{matrix.templates}}" }')
+            echo "MATRIX=$mtmp" | tee -a >> $GITHUB_OUTPUT
           else
             echo "MATRIX=${{ matrix.templates }}" >> $GITHUB_OUTPUT
           fi
@@ -54,23 +53,23 @@ jobs:
       matrix:
         config: ${{ fromJSON(needs.discover-variances.outputs.MATRIX) }}
         #templates: ${{ fromJSON(needs.detect-changes.outputs.templates) }}
-        include:
-          - templates: typo3
-            phpVersion: "8.5"
-            database: mysql
-            webserver: apache
-          - templates: typo3
-            phpVersion: "8.4"
-            database: mariadb
-            webserver: frankenphp
-          - templates: typo3
-            phpVersion: "8.3"
-            database: postgresql
-            webserver: apache
-          - templates: typo3
-            phpVersion: "8.2"
-            database: sqlite
-            webserver: frankenphp
+        #include:
+        #  - templates: typo3
+        #    phpVersion: "8.5"
+        #    database: mysql
+        #    webserver: apache
+        #  - templates: typo3
+        #    phpVersion: "8.4"
+        #    database: mariadb
+        #    webserver: frankenphp
+        #  - templates: typo3
+        #    phpVersion: "8.3"
+        #    database: postgresql
+        #    webserver: apache
+        #  - templates: typo3
+        #    phpVersion: "8.2"
+       #     database: sqlite
+       #     webserver: frankenphp
       #jq -r '.[] | . += {"template" : "typo3" }' fruits.json
     steps:
       - uses: actions/checkout@v3
