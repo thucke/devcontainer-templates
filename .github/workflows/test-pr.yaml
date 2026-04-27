@@ -50,16 +50,15 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: false
     strategy:
-      matrix: 
-        config: ${{ fromJSON(needs.discover-variances.outputs.template-matrix.config) }}
+      matrix: ${{ fromJSON(needs.discover-variances.outputs.template-matrix) }}
     steps:
       - uses: actions/checkout@v3
 
       - name: Set up devcontainer config
         id: set_devcontainer_config
         run: |
-          echo "matrix: ${{ matrix.config }}"
           echo "fromJSON: ${{ fromJSON(matrix.config) }}"
+          echo "matrix: ${{ matrix.config }}"
           echo "DEVCONTAINER_CONFIG={\"phpVersion\": \"${{ matrix.config.phpVersion }}\", \"database\": \"${{ matrix.config.database }}\", \"webserver\": \"${{ matrix.config.webserver }}\"}" >> $GITHUB_OUTPUT
       - name: Smoke test for '${{ matrix.config.templates }}'
         id: smoke_test
