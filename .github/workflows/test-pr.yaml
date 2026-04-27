@@ -6,10 +6,10 @@ on:
 jobs:
   detect-changes:
     runs-on: ubuntu-latest
-    outputs:
-      templates: ${{ steps.filter.outputs.changes }}
+    #outputs:
+    #  templates: ${{ steps.filter.outputs.changes }}
     steps:
-      - uses: dorny/paths-filter@v3
+      - uses: dorny/paths-filter@v4
         id: filter
         with:
           filters: |
