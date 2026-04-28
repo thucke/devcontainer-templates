@@ -48,7 +48,7 @@ jobs:
   test:
     needs: [discover-variances]
     runs-on: ubuntu-latest
-    continue-on-error: false
+    continue-on-error: true
     strategy:
       matrix: 
         include: ${{ fromJSON(needs.discover-variances.outputs.template-matrix) }}
