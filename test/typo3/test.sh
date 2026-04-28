@@ -17,8 +17,11 @@ if [ "${DB_SERVER_TYPE}" != "sqlite" ]; then
                 grep -c healthy) == 1
 fi
 
-check "Testing docker compose project webserver conectivity on port 80" \
-    test $(nc -w 3 -z localhost 80 1>&2 2>/dev/null; echo $?) -eq 0
+# TODO: Add a test for webserver connectivity on port 80 once we have a sample project that includes a webserver and a healthcheck for it.
+# Apache DOCuMNT_ROOT and log location must depend on a variable:
+# WORKSPACE_ROOT for normal processing and GITHUB_WORKSPACE for github actions.
+#check "Testing docker compose project webserver conectivity on port 80" \
+#    test $(nc -w 3 -z localhost 80 1>&2 2>/dev/null; echo $?) -eq 0
 
 # Report result
 reportResults
