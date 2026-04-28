@@ -64,4 +64,4 @@ jobs:
         uses: ./.github/actions/smoke-test
         with:
           template: "${{ matrix.template }}"
-          config: "${{ fromJSON(matrix) }}"
+          config: "${{ toJSON(matrix) }}"
