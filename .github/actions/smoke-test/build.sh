@@ -1,5 +1,4 @@
 #!/bin/bash
-set -x
 TEMPLATE_ID="$1"
 DEVCONTAINER_CONFIG="$2"
 
