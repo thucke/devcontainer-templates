@@ -14,11 +14,11 @@ if [ "${DB_SERVER_TYPE}" != "sqlite" ]; then
     check "Testing docker compose project database health for ${DB_SERVER_TYPE}" \
         test $(docker ps --filter "label=dev.containers.servicetype=database" | \
                 grep $COMPOSE_PROJECT_NAME | \
-                grep -c healthy) -eq 1
+                grep -c healthy) == 1
 fi
 
 check "Testing docker compose project webserver conectivity on port 80" \
-    test $(nc -w 3 -z localhost 80) -eq 0
+    test $(nc -w 3 -z localhost 80 1>&2 2>/dev/null; echo $?) -eq 0
 
 # Report result
 reportResults
