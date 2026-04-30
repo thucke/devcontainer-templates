@@ -24,4 +24,4 @@ runs:
     - name: Test template
       id: test_template
       shell: bash
-      run: ${{ github.action_path }}/test.sh  "${{ inputs.template }}" '${{ inputs.config }}'
+      run: ${{ github.action_path }}/test.sh "${{ inputs.template }}" '${{ inputs.config }}'
