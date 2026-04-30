@@ -3,14 +3,13 @@
 
 A template to support remote development with TYPO3.
 
-
 ## Options
 
 | Options Id | Description | Type | Default Value |
 |-----|-----|-----|-----|
-| phpVersion | Select the PHP version to use in the development container.<br/>You may choose PHP version from `8.2` to `8.5`. | string | `8.4` |
-| webserver | Which webserver do you prefer?<br/> Supported: `frankenphp`, `apache`| string | `frankenphp` |
-| database | Which database would you like to use in your development environment?<br/>[`mariadb`, `mysql`, `postgresql`, `sqlite`]| string | `mysql` |
+| phpVersion | Select the PHP version to use in the development container. You may choose PHP version from 8.2 to 8.5. | string | 8.4 |
+| webserver | Which webserver do you prefer? | string | frankenphp |
+| database | Which database would you like to use in your development environment? | string | mysql |
 
 ### Disclaimer
 
@@ -140,7 +139,6 @@ Additionally the directory `var` is used for several purposes incl. apache logfi
   * please be VERY patient now because all containers have to be build initially including the whole TYPO3 environment. You may follow the progress by pressing `Building codespace...` link in the bottom right corner:</br>
   ![Building codespace](doc/Github_VsCodeBuildingCodespace.png)</br>
   If you later start the codespace again it will come up quickly.
-
 
 ---
 
