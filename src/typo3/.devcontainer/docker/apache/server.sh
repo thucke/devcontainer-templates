@@ -24,7 +24,7 @@ sudo find .build/public -name index.html -exec chmod -c 0660 {} \;
 mkdir -pv var/log/apache2
 
 echo "server.sh (apache): Restarting Apache server"
-sudo apachectl -k restart
+sudo /bin/bash -c "export WORKSPACE_ROOT=\"${WORKSPACE_ROOT}\" && apachectl -k restart"
 echo "Devcontainer: Apache server started"
 
 echo "END: server.sh (apache)"
