@@ -4,6 +4,9 @@ set -eu
 # post start script
 echo "BEGIN: initializeTYPO3.sh"
 
+echo "initializeTYPO3: Removing old composer.lock file if exists"
+rm -fv composer.lock
+
 echo "initializeTYPO3: Checking if site already has been initialized"
 if test ! -d .build/vendor; then
   echo "initializeTYPO3: Initialize TYPO3"

@@ -28,6 +28,8 @@ services:
       - ${WORKSPACE_ROOT}/.devcontainer/docker/nginx/includes:/etc/nginx/includes:rw,cached
     networks:
       - devcontainer
+    labels:
+      dev.containers.servicetype: "webserver"
     profiles: [php-fpm, nginx]
   mysql:
     build:
@@ -60,6 +62,8 @@ services:
       retries: 5
       start_period: 15s
       start_interval: 10s
+    labels:
+      dev.containers.servicetype: "database"
   mariadb:
     image: mariadb:12-ubi
     command: mariadbd
@@ -88,6 +92,8 @@ services:
       retries: 5
       start_period: 15s
       start_interval: 10s
+    labels:
+      dev.containers.servicetype: "database"
   postgres:
     image: postgres:18-trixie
     command: postgres
@@ -113,6 +119,8 @@ services:
       retries: 5
       start_period: 5s
       start_interval: 10s
+    labels:
+      dev.containers.servicetype: "database"
   adminer:
     image: adminer:latest
     restart: unless-stopped
@@ -133,6 +141,8 @@ services:
       postgres:
         condition: service_healthy
         required: false
+    labels:
+      dev.containers.servicetype: "database-client"
 networks:
   devcontainer:
     # Specify driver options

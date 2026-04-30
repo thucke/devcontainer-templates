@@ -34,29 +34,29 @@ The default configuration consists of:
 
 You may choose between
 
-* FrankenPHP (Default - Value: "frankenphp")
+* FrankenPHP (Default - Value: `frankenphp`)
   
   FrankenPHP currently *only* runs in classic mode comparable to Apache/mod_php or PHP-FPM. Unfortunately worker mode is not supported by TYPO3 at this point of time.
 
-* Apache (Value: "apache")
+* Apache (Value: `apache`)
 
 #### Database
 
 You may choose between
 
-* SQLite (Value: "sqlite")
-* MariaDB (Value: "mariadb")
-* MySql (Default - Value: "mysql")
-* PostgreSQL (Value: "postgresql")
+* MariaDB (Value: `mariadb`)
+* MySql (Default - Value: `mysql`)
+* PostgreSQL (Value: `postgresql`)
+* SQLite (Value: `sqlite`)
 
 #### PHP Version
 
 Currently only variances of FrankenPHP integrated webserver (Caddy) with the following PHP versions are provided:
 
-* 8.2
-* 8.3
-* 8.4 (Default)
-* 8.5
+* `8.2`
+* `8.3`
+* `8.4` (Default)
+* `8.5`
 
 ### Requirements
 
