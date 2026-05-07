@@ -1,7 +1,6 @@
 name: "CI - Test Templates"
 on:
   pull_request:
-  workflow_dispatch:
 
 jobs:
   detect-changes:
@@ -35,7 +34,7 @@ jobs:
             echo "check_result=true" >> $GITHUB_OUTPUT
           else
             echo "check_result=false" >> $GITHUB_OUTPUT
-          fi          
+          fi
       - name: Enhance matrix for testing ${{ matrix.templates }}
         id: set-matrix
         run: |
@@ -50,7 +49,7 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     strategy:
-      matrix: 
+      matrix:
         include: ${{ fromJSON(needs.discover-variances.outputs.template-matrix) }}
     steps:
       - uses: actions/checkout@v6
