@@ -21,7 +21,7 @@ check "docker compose project webserver conectivity on port 80" \
     test $(nc -w 3 -z localhost 80 1>&2 2>/dev/null; echo $?) -eq 0
 
 check "Webserver response contains expected content" \
-    curl -s http://localhost/servertest.txt | grep -q "devcontainer is alive"
+    test $(curl -s http://localhost/servertest.txt | grep -q "devcontainer is alive") -eq 0
 
 # Report result
 reportResults
