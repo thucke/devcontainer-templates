@@ -19,16 +19,17 @@
         },
         "webserver": {
             "type": "string",
-            "description": "Which webserver do you prefer?",
+            "description": "Which webserver do you prefer? Choose between Apache, FrankenPHP or Nginx.",
             "enum": [
+                "apache",
                 "frankenphp",
-                "apache"
+                "nginx"
             ],
             "default": "frankenphp"
         },
         "database": {
             "type": "string",
-            "description": "Which database would you like to use in your development environment?",
+            "description": "Which database would you like to use in your development environment? You can choose between SQLite, MySQL, MariaDB and PostgreSQL.",
             "enum": [
                 "sqlite",
                 "mysql",

@@ -29,14 +29,16 @@
 		"TYPO3_CONTEXT": "Development",
 		"TYPO3_INSTALL_DB_HOST": "127.0.0.1",
 		"TYPO3_INSTALL_DB_USE_EXISTING": "true",
-		"TYPO3_CONFIG_SYS_TRUSTED_HOST_PATTERN": "localhost|127.0.0.1"
+		"TYPO3_CONFIG_SYS_TRUSTED_HOST_PATTERN": "localhost|127.0.0.1",
+		"TYPO3_INSTALL_WEB_SERVER_CONFIG": "other"
 	},
 	"forwardPorts": [
 		80,
 		2222,
 		3306,
 		5432,
-		8080
+		8080,
+		9000
 	],
 	"portsAttributes": {
 		"80": {
@@ -53,6 +55,9 @@
 		},
 		"8080": {
 			"label": "Mysql/MariaDB Adminer"
+		},
+		"9000": {
+			"label": "PHP-FPM"
 		}
 	},
 	"onCreateCommand": "sudo chmod -c +x .devcontainer/onCreateCommandScript.sh && .devcontainer/onCreateCommandScript.sh",
@@ -68,7 +73,8 @@
 				"files.autoSave": "afterDelay",
 				"files.autoSaveDelay": 1000,
 				"git.postCommitCommand": "push",
-				"git.path": "/usr/bin/git"
+				"git.path": "/usr/bin/git",
+				"terminal.integrated.allowInUntrustedWorkspace": true
 			},
 			"extensions": [
 				"cweijan.vscode-database-client2",

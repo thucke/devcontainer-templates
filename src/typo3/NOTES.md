@@ -35,10 +35,14 @@ The default configuration consists of:
 You may choose between
 
 * FrankenPHP (Default - Value: `frankenphp`)
-  
+
   FrankenPHP currently *only* runs in classic mode comparable to Apache/mod_php or PHP-FPM. Unfortunately worker mode is not supported by TYPO3 at this point of time.
 
 * Apache (Value: `apache`)
+
+* Nginx (Value: `nginx`)
+
+  The main devcontainer ist running PHP-FPM featuring Nginx as a (in)sidecar container in docker.
 
 #### Database
 
@@ -85,9 +89,9 @@ Additionally the directory `var` is used for several purposes incl. apache logfi
   * Git-Repository: checked out to `${WORKSPACE_ROOT}`
 
 * Re-Initialize TYPO3 environment
-  
+
   If you need to get a clean TYPO3 environment based upon your configuration you may spawn a terminal window and execute
-  
+
    `${WORKSPACE_ROOT}/.devcontainer/docker/igniteEnvironment.sh`
 
 * Update devcontainer template
@@ -100,7 +104,7 @@ Additionally the directory `var` is used for several purposes incl. apache logfi
 
   * `database`: `mysql` || `mariadb` ||`sqlite` || `postgresql`
   * `phpVersion`: `8.2` || `8.3` || `8.4` || `8.5`
-  * `webserver`: `frankenphp` || `apache`
+  * `webserver`: `frankenphp` || `apache` || `nginx`
 
 * TYPO3 environment configuration
 

@@ -33,7 +33,7 @@ Valid values:
 
 * `database`: `mysql` || `mariadb` ||`sqlite` || `postgresql`
 * `phpVersion`: `8.2` || `8.3` || `8.4` || `8.5`
-* `webserver`: `frankenphp` || `apache`
+* `webserver`: `frankenphp` || `apache` || `nginx`
 
 The default configuration consists of:
 

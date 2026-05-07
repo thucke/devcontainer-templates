@@ -7,7 +7,7 @@ echo "BEGIN: postCreateCommandScript.sh"
 source .devcontainer/docker/parseDotEnv.sh
 
 # check if docker containers are already running only if docker cli is installed
-if [ -n `which docker` ] && [ "${DB_SERVER_TYPE:-sqlite}" != "sqlite" ]; then
+if [ -n `which docker` ] && [ "${DB_SERVER_TYPE:-sqlite}" != "sqlite" ] || [[ "${COMPOSE_PROFILES}:-frankenphp" =~ "nginx" ]]; then
   echo "postCreateCommandScript: Checking if docker containers are already running"
   if [ `docker compose ls -q --filter "name=^${COMPOSE_PROJECT_NAME}$" | wc -l` -eq 0 ]; then
     compose_filename="${WORKSPACE_ROOT}/.devcontainer/docker/docker-compose.backend.yaml"
