@@ -20,7 +20,7 @@ This Devcontainer template is based upon the following ruleset:
 * a database backend is started as a separate docker service based on the selected `TYPO3_INSTALL_DB_DRIVER` in the file `.devcontainer/.env` (no backend if `sqlite` is configured)
 * if a `composer.json` file is detected during initialization the PHP application will be automatically initialized
 
-![Architecture overview](doc/Devcontainer_FrankenPHP.drawio.png)
+![Architecture overview](.devcontainer/img/Devcontainer_FrankenPHP.drawio.png)
 
 ### Provided variances
 
@@ -128,5 +128,5 @@ Additionally the directory `var` is used for several purposes incl. apache logfi
 * select `Create codespace`</br>
   Now a VS Code UI opens in the browser window.
   * please be VERY patient now because all containers have to be build initially including the whole TYPO3 environment. You may follow the progress by pressing `Building codespace...` link in the bottom right corner:</br>
-  ![Building codespace](doc/Github_VsCodeBuildingCodespace.png)</br>
+  ![Building codespace](.devcontainer/img/Github_VsCodeBuildingCodespace.png)</br>
   If you later start the codespace again it will come up quickly.

@@ -24,7 +24,7 @@ jobs:
       matrix:
         templates: ${{ fromJSON(needs.detect-changes.outputs.templates) }}
     env:
-      TEMPLATE_MATRIX_FILE: ${{ github.workspace }}/src/${{ matrix.templates }}/.github/workflow-matrix.yaml
+      TEMPLATE_MATRIX_FILE: ${{ github.workspace }}/.github/workflow-variances/${{ matrix.templates }}.yaml
     steps:
       - uses: actions/checkout@v6
       - name: Check file existence
