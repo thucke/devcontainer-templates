@@ -26,7 +26,7 @@ elif [ "${DB_SERVER_TYPE}" == "postgresql" ]; then
     export DB_SERVER_PORT=${DB_SERVER_PORT_POSTGRESQL}
 fi
 
-if [[ ${COMPOSE_PROFILES} =~ "apache" ]]; then
+if [[ "${COMPOSE_PROFILES}" =~ "apache" ]]; then
     export TYPO3_INSTALL_WEB_SERVER_CONFIG="apache"
 else
     export TYPO3_INSTALL_WEB_SERVER_CONFIG="other"

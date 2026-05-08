@@ -29,8 +29,7 @@
 		"TYPO3_CONTEXT": "Development",
 		"TYPO3_INSTALL_DB_HOST": "127.0.0.1",
 		"TYPO3_INSTALL_DB_USE_EXISTING": "true",
-		"TYPO3_CONFIG_SYS_TRUSTED_HOST_PATTERN": "localhost|127.0.0.1",
-		"TYPO3_INSTALL_WEB_SERVER_CONFIG": "other"
+		"TYPO3_CONFIG_SYS_TRUSTED_HOST_PATTERN": "localhost|127.0.0.1"
 	},
 	"forwardPorts": [
 		80,
