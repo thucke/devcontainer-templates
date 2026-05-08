@@ -8,8 +8,8 @@ A template to support remote development with TYPO3.
 | Options Id | Description | Type | Default Value |
 |-----|-----|-----|-----|
 | phpVersion | Select the PHP version to use in the development container. You may choose PHP version from 8.2 to 8.5. | string | 8.4 |
-| webserver | Which webserver do you prefer? | string | frankenphp |
-| database | Which database would you like to use in your development environment? | string | mysql |
+| webserver | Which webserver do you prefer? Choose between Apache, FrankenPHP or Nginx. | string | frankenphp |
+| database | Which database would you like to use in your development environment? You can choose between SQLite, MySQL, MariaDB and PostgreSQL. | string | mysql |
 
 ### Disclaimer
 
@@ -48,10 +48,14 @@ The default configuration consists of:
 You may choose between
 
 * FrankenPHP (Default - Value: `frankenphp`)
-  
+
   FrankenPHP currently *only* runs in classic mode comparable to Apache/mod_php or PHP-FPM. Unfortunately worker mode is not supported by TYPO3 at this point of time.
 
 * Apache (Value: `apache`)
+
+* Nginx (Value: `nginx`)
+
+  The main devcontainer ist running PHP-FPM featuring Nginx as a (in)sidecar container in docker.
 
 #### Database
 
@@ -98,9 +102,9 @@ Additionally the directory `var` is used for several purposes incl. apache logfi
   * Git-Repository: checked out to `${WORKSPACE_ROOT}`
 
 * Re-Initialize TYPO3 environment
-  
+
   If you need to get a clean TYPO3 environment based upon your configuration you may spawn a terminal window and execute
-  
+
    `${WORKSPACE_ROOT}/.devcontainer/docker/igniteEnvironment.sh`
 
 * Update devcontainer template
@@ -113,7 +117,7 @@ Additionally the directory `var` is used for several purposes incl. apache logfi
 
   * `database`: `mysql` || `mariadb` ||`sqlite` || `postgresql`
   * `phpVersion`: `8.2` || `8.3` || `8.4` || `8.5`
-  * `webserver`: `frankenphp` || `apache`
+  * `webserver`: `frankenphp` || `apache` || `nginx`
 
 * TYPO3 environment configuration
 
@@ -139,6 +143,7 @@ Additionally the directory `var` is used for several purposes incl. apache logfi
   * please be VERY patient now because all containers have to be build initially including the whole TYPO3 environment. You may follow the progress by pressing `Building codespace...` link in the bottom right corner:</br>
   ![Building codespace](doc/Github_VsCodeBuildingCodespace.png)</br>
   If you later start the codespace again it will come up quickly.
+
 
 ---
 
