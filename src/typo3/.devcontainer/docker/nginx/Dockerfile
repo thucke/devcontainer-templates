@@ -1,7 +1,9 @@
-FROM nginx:1.29-alpine-slim
+FROM nginx:1.30-alpine-slim
 
 ARG DEVCONTAINER_SERVICE_ID
 ARG DEVCONTAINER_SERVICE_NAME
+ARG WORKSPACE_ROOT
+ENV WORKSPACE_ROOT=$WORKSPACE_ROOT
 
 RUN addgroup -g $DEVCONTAINER_SERVICE_ID -S $DEVCONTAINER_SERVICE_NAME && \
     adduser -S -D -H -u $DEVCONTAINER_SERVICE_ID -h /home/$DEVCONTAINER_SERVICE_NAME -s /sbin/nologin \
@@ -9,7 +11,7 @@ RUN addgroup -g $DEVCONTAINER_SERVICE_ID -S $DEVCONTAINER_SERVICE_NAME && \
     sed -i "s/user\s*nginx/user\ $DEVCONTAINER_SERVICE_NAME/" /etc/nginx/nginx.conf && \
     apk add --no-cache fcgi
 
-VOLUME /workspaces/TYPO3.introduction
+VOLUME ${WORKSPACE_ROOT}
 EXPOSE 80
 
-WORKDIR /workspaces/TYPO3.introduction
+WORKDIR ${WORKSPACE_ROOT}

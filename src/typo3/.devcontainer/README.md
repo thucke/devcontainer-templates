@@ -25,7 +25,7 @@ First calls to TYPO3 my result to exceptions in the file `.build/vendor/scssphp/
 
 ## Update devcontainer template
 
-If you want to update the devcontainer configuration e.g. after a new template version has been published you can make use of the [Dev Container CLI](https://github.com/devcontainers/cli) with the following command (**make sure you're in the root directory of your repository**):
+If you want to update the devcontainer configuration e.g. after a new template version has been published or you want to switch a component you can make use of the [Dev Container CLI](https://github.com/devcontainers/cli) with the following command (**make sure you're in the root directory of your repository**):
 
     devcontainer templates apply --template-id ghcr.io/thucke/devcontainer-templates/typo3  --template-args "{\"database\": \"mysql\", \"phpVersion\": \"8.4\", \"webserver\": \"frankenphp\"}" -w .
 
@@ -33,7 +33,7 @@ Valid values:
 
 * `database`: `mysql` || `mariadb` ||`sqlite` || `postgresql`
 * `phpVersion`: `8.2` || `8.3` || `8.4` || `8.5`
-* `webserver`: `frankenphp` || `apache`
+* `webserver`: `frankenphp` || `apache` || `nginx`
 
 The default configuration consists of:
 

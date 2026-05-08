@@ -4,7 +4,7 @@ set -eu
 # post start script
 echo "BEGIN: postAttachCommandScript.sh"
 
-if [[ "${COMPOSE_PROFILES}" =~ "php-fpm" ]]; then
+if [[ "${COMPOSE_PROFILES}" =~ "nginx" ]]; then
     echo "postAttachCommandScript.sh: Checking for running php-fpm"
     .devcontainer/docker/php-fpm/server.sh restart
 elif [[ "${COMPOSE_PROFILES}" =~ "apache" ]]; then
