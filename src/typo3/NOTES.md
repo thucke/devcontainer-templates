@@ -22,7 +22,9 @@ This Devcontainer template is based upon the following ruleset:
 
 ![Architecture overview](.devcontainer/img/Devcontainer_FrankenPHP.drawio.png)
 
->[!CAUTION] Caution Windows WSL Users
+>[!CAUTION]
+>**Caution Windows WSL Users**
+>
 >If you want to develop locally on your Windows machine the Windows Subsystem for Linux (WSL) is always involved. It's a well known limitation in WSL that cross platform performance (Windows Host->WSL / WSL->Windows Host) is very sluggish which could cause timeouts e.g. during composer install.
 >The reason is that behind the scenes your local git directory is mounted into the running devcontainer which will find yourself and your project immediately facing the upper mentioned issue.
 >
