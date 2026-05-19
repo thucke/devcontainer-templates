@@ -2,6 +2,14 @@
 
 Homepage: [Github](https://github.com/thucke/devcontainer-templates/tree/main/src/typo3)
 
+>[!CAUTION] Caution Windows WSL Users
+>If you want to develop locally on your Windows machine the Windows Subsystem for Linux (WSL) is always involved. It's a well known limitation in WSL that cross platform performance (Windows Host->WSL / WSL->Windows Host) is very sluggish which could cause timeouts e.g. during composer install.
+>The reason is that behind the scenes your local git directory is mounted into the running devcontainer which will find yourself and your project immediately facing the upper mentioned issue.
+>
+>As a workaround you should checkout your Git repository into a WSL guest and launch the Development Container from there. The internal mount then is within the same platform WSL internal.
+>
+>Other alternatives would be doing *real* remote development like among others [Github Codespaces](https://github.com/features/codespaces), [Coder](https://coder.com/), [Devpod](https://devpod.sh/), [Ona (former Gitpod)](https://ona.com/). Usually your repository is directly checked out into the Devcontainer.
+
 ## Working in the TYPO3 Devcontainer
 
   After the TYPO3 devcontainer environment came up you will find in a container running Debian Trixie:
